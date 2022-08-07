@@ -1,7 +1,9 @@
 public enum DebugTag
 {
-    Multiplayer,
+    Debug,
     UI,
+    Language,
+    Multiplayer,
     Inventory,
     Entities,
     AI,

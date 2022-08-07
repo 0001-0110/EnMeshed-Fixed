@@ -1,27 +1,35 @@
-using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// Must be placed as a componnent of the text object
 /// </summary>
-public class TextController : MonoBehaviour
+public class TextController : DebugMonoBehaviour
 {
     private LanguageController languageController;
-    private Text text;
+    private TextMeshProUGUI text;
 
     public string localizationString;
 
-    void Awake()
+    public override void Awake()
     {
-        languageController = GameObject.Find("LanguageController").GetComponent<LanguageController>();
-        text = GetComponent<Text>();
+        base.Awake();
+        debugTags.Add(DebugTag.Language);
+
+        languageController = LanguageController.Instance;
+        // Add this TextController to the list of controllers to be updated in case of a language modification
+        languageController.textControllers.Add(this);
+
+        text = GetComponent<TextMeshProUGUI>();
+        if (text == null)
+            LogWarning($"This TextController is missing a text to control\nThis may be due to the text not being a TextMeshProUGUI");
+
+        UpdateText();
     }
 
-    // Not the most efficient for sure, but it's not that bad either
-    // So for now, it'll do
-    void OnEnable()
+    public void OnDestroy()
     {
-        UpdateText();
+        // To avoid referencing an object that doesn't exist anymore
+        languageController.textControllers.Remove(this);
     }
 
     public void UpdateText()
