@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class DebugMonoBehaviourPunCallbacks : MonoBehaviourPunCallbacks
+public abstract class DebugMonoBehaviourPunCallbacks : MonoBehaviourPunCallbacks
 {
     protected DebugController debugController;
-    protected DebugTag[] DebugTags = new DebugTag[] { DebugTag.Multiplayer };
+    protected List<DebugTag> DebugTags = new List<DebugTag>() { DebugTag.Multiplayer };
 
     public virtual void Awake()
     {

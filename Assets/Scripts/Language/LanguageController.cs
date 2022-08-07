@@ -1,20 +1,53 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LanguageController : MonoBehaviour
+public class LanguageController : DebugMonoBehaviour
 {
+    // This string is used to store player preferences
+    private const string LanguagePreferenceKey = "Language";
+
+    public static LanguageController Instance { get; private set; }
+    public List<TextController> textControllers { get; set; }
+
     public Language CurrentLanguage { get; private set; }
     public Dictionary<string, string> LocalizationStrings { get; private set; }
 
-    public void Awake()
+    public override void Awake()
     {
+        base.Awake();
+        debugTags.Add(DebugTag.Language);
+
+        if (Instance != null)
+        {
+            LogError($"ERROR - 22 | There is multiple MultiplayerControllers, but it should be only one");
+            LogWarning($"WARNING - 22 | The previous MultiplayerController has been replaced with a new one");
+        }
+        Instance = this;
+        // TODO what even is that thing ?
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        textControllers = new List<TextController>();
+
         DontDestroyOnLoad(gameObject);
-        if (PlayerPrefs.HasKey("Language"))
-            SetLanguage(PlayerPrefs.GetInt("Language"));
+
+        // Load the prefered language
+        // If there is a preferenced saved, load it
+        // If not, load the system language
+        // If the system language is not recognized, load english
+        if (PlayerPrefs.HasKey(LanguagePreferenceKey))
+            SetLanguage(PlayerPrefs.GetInt(LanguagePreferenceKey));
         else
             SetLanguage(GetSystemLanguage());
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LogMessage("DEBUG - 22 | LanguageController.OnSceneLoaded called");
+        // Clear the list containing all textControllers, to avoid referencing textControllers on another scene (destroyed)
+        textControllers = new List<TextController>();
     }
 
     private Language GetSystemLanguage(Language DefaultLanguage = Language.English)
@@ -28,16 +61,29 @@ public class LanguageController : MonoBehaviour
         return localizationFile.SelectNodes($"{fileName}/string");
     }
 
-    public void SetLanguage(Language language)
+    private async Task UpdateAllTextControllers()
+    {
+        /*foreach (TextController textController in textControllers)
+            textController.UpdateText();*/
+
+        // TODO this code need some serious testing, I have no idea if this can work
+        List<Task> tasks = new List<Task>();
+        foreach (TextController textController in textControllers)
+            tasks.Add(Task.Run(textController.UpdateText));
+        await Task.WhenAll(tasks);
+    }
+
+    public async void SetLanguage(Language language)
     {
         // If the language is not defined, trying to load could create many errors
         if (!Enum.IsDefined(typeof(Language), language))
             throw new ArgumentException("I don't speak Klingon");
+
         CurrentLanguage = language;
-        // TODO replace this by LogMessage
-        Debug.Log($"DEBUG - 22 | CurrentLanguage: {CurrentLanguage}");
         // Save this value for the next time the app is used
-        PlayerPrefs.SetInt("Language", (int)CurrentLanguage);
+        PlayerPrefs.SetInt(LanguagePreferenceKey, (int)CurrentLanguage);
+        LogMessage($"DEBUG - 22 | CurrentLanguage: {CurrentLanguage}");
+        
         LocalizationStrings = new Dictionary<string, string>();
         foreach (string fileName in new string[] { "General", CurrentLanguage.ToString() })
         {
@@ -47,6 +93,9 @@ public class LanguageController : MonoBehaviour
                 LocalizationStrings.Add(node.Attributes["name"].Value, node.InnerText);
             }
         }
+
+        // TODO how do I handle this bit ?
+        await UpdateAllTextControllers();
     }
 
     public void SetLanguage(int languageIndex)
@@ -59,7 +108,7 @@ public class LanguageController : MonoBehaviour
         if (!LocalizationStrings.ContainsKey(localizationString))
         {
             // If there is no translation available
-            Debug.LogWarning($"WARNING: Missing translation for {localizationString}");
+            LogWarning($"WARNING: Missing translation for {localizationString}");
             return localizationString;
         }
         else
