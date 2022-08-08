@@ -30,8 +30,8 @@ public class MainMenuScreenController : ScreenController
     private async void RetryConnection(int refreshDelay = 2000)
     {
         // Keep trying to connect until this gameObject is no longer active or the connection is succesful
-        // We have to check if the gameObject is null to avoid errors when exiting the app while this screen is active
-        while (gameObject != null && gameObject.activeInHierarchy && !multiplayerController.IsConnectedAndReady)
+        // We have to check if this is null to avoid errors when the screen is destroyed (Loading a new scene or exiting the game)
+        while (this != null && gameObject.activeInHierarchy && !multiplayerController.IsConnectedAndReady)
         {
             LogMessage("DEBUG - 22 | Retrying connection to master server", DebugTag.Multiplayer);
             MultiplayerButton.interactable = await multiplayerController.ConnectToMaster();
