@@ -2,12 +2,9 @@ using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class LobbyScreenController : ModularScreenController
+public class LobbyScreenController : GameLoadingScreenController
 {
     private MenuMultiplayerController menuMultiplayerController;
-
-    // TODO not the best solution
-    public string GameSceneName;
 
     public TextMeshProUGUI playerInLobbyText;
     public TMP_InputField roomNameInput;
@@ -35,22 +32,6 @@ public class LobbyScreenController : ModularScreenController
             playerInLobbyText.text = menuMultiplayerController.PlayerCountInLobby.ToString();
             await Task.Delay(RefreshDelay);
         }
-    }
-
-    /// <summary>
-    /// TODO comment this you moron
-    /// </summary>
-    /// <param name="task"></param>
-    /// <returns></returns>
-    private async Task LoadRoom(Task<bool> task)
-    {
-        // TODO need some tests (is the order of execution of the task correct ?)
-        // TODO an error is occuring when the app is closed halfway through this operation, fix it
-        SetMode(ScreenMode.Loading);
-        if (await task)
-            SceneManager.LoadScene(GameSceneName);
-        else
-            SetMode(ScreenMode.FailedConnection);
     }
 
     /*public async void CreateRoom()

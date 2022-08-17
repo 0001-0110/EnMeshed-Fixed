@@ -1,14 +1,13 @@
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
+using System.Threading.Tasks;
 
-public class LoadingSoloScreenController : ModularScreenController
+
+public class LoadingSoloScreenController : GameLoadingScreenController
 {
     private const string SoloRoomName = "SoloRoom";
 
     private MenuMultiplayerController menuMultiplayerController;
-
-    // TODO not the best solution
-    public string GameSceneName;
 
     public override void Awake()
     {
@@ -20,10 +19,9 @@ public class LoadingSoloScreenController : ModularScreenController
 
     public async void OnEnable()
     {
-        SetMode(ScreenMode.Loading);
-        // TODO comment this
-        if (await menuMultiplayerController.StartOfflineMode() && await menuMultiplayerController.CreateRoom(SoloRoomName))
-            SceneManager.LoadScene(GameSceneName);
+        // could probably do better
+        if (await menuMultiplayerController.StartOfflineMode())
+            await LoadRoom(menuMultiplayerController.CreateRoom(SoloRoomName));
         else
             SetMode(ScreenMode.FailedConnection);
     }
