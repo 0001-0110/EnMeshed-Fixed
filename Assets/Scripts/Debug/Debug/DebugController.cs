@@ -17,6 +17,10 @@ public class DebugController : MonoBehaviour
     [SerializeField]
     private bool debugMultiplayer;
     [SerializeField]
+    private bool debugGameplay;
+    [SerializeField]
+    private bool debugLevel;
+    [SerializeField]
     private bool debugInventory;
     [SerializeField]
     private bool debugEntities;
@@ -45,6 +49,8 @@ public class DebugController : MonoBehaviour
             [DebugTag.UI] = debugUI,
             [DebugTag.Language] = debugLanguage,
             [DebugTag.Multiplayer] = debugMultiplayer,
+            [DebugTag.Gameplay] = debugGameplay,
+            [DebugTag.Level] = debugLevel,
             [DebugTag.Inventory] = debugInventory,
             [DebugTag.Entities] = debugEntities,
             [DebugTag.AI] = debugAI,
