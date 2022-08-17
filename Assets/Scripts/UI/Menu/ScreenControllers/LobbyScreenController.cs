@@ -6,7 +6,7 @@ public class LobbyScreenController : ModularScreenController
 {
     private const string GameSceneName = "GameScene";
 
-    private MultiplayerController multiplayerController;
+    private MenuMultiplayerController menuMultiplayerController;
 
     public TextMeshProUGUI playerInLobbyText;
     public TMP_InputField roomNameInput;
@@ -18,7 +18,7 @@ public class LobbyScreenController : ModularScreenController
         base.Awake();
         debugTags.Add(DebugTag.Multiplayer);
 
-        multiplayerController = MultiplayerController.Instance;
+        menuMultiplayerController = MenuMultiplayerController.Instance;
     }
 
     public void OnEnable()
@@ -31,7 +31,7 @@ public class LobbyScreenController : ModularScreenController
     {
         while (gameObject.activeInHierarchy)
         {
-            playerInLobbyText.text = multiplayerController.PlayerCountInLobby.ToString();
+            playerInLobbyText.text = menuMultiplayerController.PlayerCountInLobby.ToString();
             await Task.Delay(RefreshDelay);
         }
     }
@@ -39,7 +39,7 @@ public class LobbyScreenController : ModularScreenController
     public async void CreateRoom()
     {
         SetMode(ScreenMode.Loading);
-        if (await multiplayerController.CreateRoom(multiplayerController.CreateRoomName()))
+        if (await menuMultiplayerController.CreateRoom(menuMultiplayerController.CreateRoomName()))
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);
@@ -48,7 +48,7 @@ public class LobbyScreenController : ModularScreenController
     public async void JoinRandomOrCreate()
     {
         SetMode(ScreenMode.Loading);
-        if (await multiplayerController.JoinRandomOrCreateRoom())
+        if (await menuMultiplayerController.JoinRandomOrCreateRoom())
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);
@@ -57,7 +57,7 @@ public class LobbyScreenController : ModularScreenController
     public async void JoinRoom()
     {
         SetMode(ScreenMode.Loading);
-        if (await multiplayerController.JoinRoom(roomNameInput.text.ToUpper()))
+        if (await menuMultiplayerController.JoinRoom(roomNameInput.text.ToUpper()))
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);

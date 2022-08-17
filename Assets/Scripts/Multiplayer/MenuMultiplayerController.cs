@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MultiplayerController : DebugMonoBehaviourPunCallbacks
+public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 {
-    public static MultiplayerController Instance { get; private set; }
+    public static MenuMultiplayerController Instance { get; private set; }
 
     /// <summary>
     /// Delay before time out (ms)
@@ -36,10 +36,6 @@ public class MultiplayerController : DebugMonoBehaviourPunCallbacks
             LogWarning($"WARNING - MULTIPLAYER | The previous MultiplayerController has been replaced with a new one");
         }
         Instance = this;
-
-        // This gameobject is going to stay on every scene
-        // TODO is this necessary ?
-        //DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
