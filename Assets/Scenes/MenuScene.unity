@@ -9320,6 +9320,8 @@ MonoBehaviour:
   debugUI: 1
   debugLanguage: 0
   debugMultiplayer: 1
+  debugGameplay: 0
+  debugLevel: 0
   debugInventory: 1
   debugEntities: 1
   debugAI: 1
@@ -12004,7 +12006,7 @@ GameObject:
   - component: {fileID: 1926288098}
   - component: {fileID: 1926288097}
   m_Layer: 0
-  m_Name: MultiplayerController
+  m_Name: MenuMultiplayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
