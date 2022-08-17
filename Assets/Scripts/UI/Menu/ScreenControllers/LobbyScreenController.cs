@@ -30,7 +30,7 @@ public class LobbyScreenController : ModularScreenController
 
     public async void Refresh()
     {
-        while (gameObject.activeInHierarchy)
+        while (this != null && gameObject.activeInHierarchy)
         {
             playerInLobbyText.text = menuMultiplayerController.PlayerCountInLobby.ToString();
             await Task.Delay(RefreshDelay);
