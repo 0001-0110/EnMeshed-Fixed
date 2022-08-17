@@ -4,6 +4,8 @@ public enum DebugTag
     UI,
     Language,
     Multiplayer,
+    Gameplay,
+    Level,
     Inventory,
     Entities,
     AI,

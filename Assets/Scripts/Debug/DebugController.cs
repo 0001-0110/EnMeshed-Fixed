@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DebugController : MonoBehaviour
 {
+    public static bool Initialised { get; private set; }
     public static DebugController Instance { get; private set; }
 
     // These variables are only used in the editor
@@ -50,6 +51,8 @@ public class DebugController : MonoBehaviour
         };
         if (activeDebugTags.Count != Enum.GetNames(typeof(DebugTag)).Length)
             Debug.LogWarning($"activeDebugTags is missing some DebugTags");
+
+        Initialised = true;
     }
 
     private bool IsDebugTagActive(List<DebugTag> debugTags)
