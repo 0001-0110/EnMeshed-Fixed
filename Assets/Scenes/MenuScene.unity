@@ -4055,6 +4055,7 @@ MonoBehaviour:
     gameObjects:
     - {fileID: 411521682}
     - {fileID: 788295464}
+  GameSceneName: GameScene
 --- !u!1 &750483322
 GameObject:
   m_ObjectHideFlags: 0
@@ -10370,6 +10371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeScreenMode: 0
   screenModes: []
+  GameSceneName: GameScene
   playerInLobbyText: {fileID: 1461607626}
   roomNameInput: {fileID: 1810527457}
   RefreshDelay: 5000

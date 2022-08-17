@@ -3,10 +3,12 @@ using Photon.Realtime;
 
 public class LoadingSoloScreenController : ModularScreenController
 {
-    private const string GameSceneName = "GameScene";
     private const string SoloRoomName = "SoloRoom";
 
     private MenuMultiplayerController menuMultiplayerController;
+
+    // TODO not the best solution
+    public string GameSceneName;
 
     public override void Awake()
     {

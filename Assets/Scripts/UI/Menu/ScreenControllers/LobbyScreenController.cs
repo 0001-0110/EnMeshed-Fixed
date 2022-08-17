@@ -4,9 +4,10 @@ using TMPro;
 
 public class LobbyScreenController : ModularScreenController
 {
-    private const string GameSceneName = "GameScene";
-
     private MenuMultiplayerController menuMultiplayerController;
+
+    // TODO not the best solution
+    public string GameSceneName;
 
     public TextMeshProUGUI playerInLobbyText;
     public TMP_InputField roomNameInput;
@@ -36,31 +37,62 @@ public class LobbyScreenController : ModularScreenController
         }
     }
 
-    public async void CreateRoom()
+    /// <summary>
+    /// TODO comment this you moron
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
+    private async Task LoadRoom(Task<bool> task)
+    {
+        // TODO need some tests (is the order of execution of the task correct ?)
+        // TODO an error is occuring when the app is closed halfway through this operation, fix it
+        SetMode(ScreenMode.Loading);
+        if (await task)
+            SceneManager.LoadScene(GameSceneName);
+        else
+            SetMode(ScreenMode.FailedConnection);
+    }
+
+    /*public async void CreateRoom()
     {
         SetMode(ScreenMode.Loading);
         if (await menuMultiplayerController.CreateRoom(menuMultiplayerController.CreateRoomName()))
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);
+    }*/
+
+    public async void CreateRoom()
+    {
+        await LoadRoom(menuMultiplayerController.CreateRoom(menuMultiplayerController.CreateRoomName()));
     }
 
-    public async void JoinRandomOrCreate()
+    /*public async void JoinRandomOrCreate()
     {
         SetMode(ScreenMode.Loading);
         if (await menuMultiplayerController.JoinRandomOrCreateRoom())
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);
+    }*/
+
+    public async void JoinRandomOrCreate()
+    {
+        await LoadRoom(menuMultiplayerController.JoinRandomOrCreateRoom());
     }
 
-    public async void JoinRoom()
+    /*public async void JoinRoom()
     {
         SetMode(ScreenMode.Loading);
         if (await menuMultiplayerController.JoinRoom(roomNameInput.text.ToUpper()))
             SceneManager.LoadScene(GameSceneName);
         else
             SetMode(ScreenMode.FailedConnection);
+    }*/
+
+    public async void JoinRoom()
+    {
+        await LoadRoom(menuMultiplayerController.JoinRoom(roomNameInput.text.ToUpper()));
     }
 
     // Doesn't work, because the screen must be set to the correct mode before trying to connect
