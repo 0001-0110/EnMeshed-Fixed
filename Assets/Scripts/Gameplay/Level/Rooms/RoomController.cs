@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomController : DebugMonoBehaviour
@@ -10,6 +9,8 @@ public class RoomController : DebugMonoBehaviour
     {
         base.Awake();
         debugTags.Add(DebugTag.Level);
+
+        triggerCollider = GetComponent<Collider2D>();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
