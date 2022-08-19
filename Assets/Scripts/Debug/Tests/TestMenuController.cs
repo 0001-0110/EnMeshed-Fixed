@@ -36,7 +36,7 @@ public class TestMenuController : DebugMonoBehaviour
         if (online)
         {
             if (await menuMultiplayerController.ConnectToMaster())
-                
+            {
                 if (await menuMultiplayerController.JoinRandomOrCreateRoom())
                 {
                     LogMessage("Succesfully created or joined an online room", DebugTag.Multiplayer);
@@ -44,6 +44,7 @@ public class TestMenuController : DebugMonoBehaviour
                 }
                 else
                     LogError("Could not connect to room", DebugTag.Multiplayer);
+            }
             else
                 LogError("Could not connect to master", DebugTag.Multiplayer);
         }

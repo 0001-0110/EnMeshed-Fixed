@@ -12,15 +12,18 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// </summary>
     public const int TimeOutDelay = 2000;
 
-    public bool IsConnected => PhotonNetwork.IsConnected;
-    public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
-    public bool InLobby => PhotonNetwork.InLobby;
-    public bool InRoom => PhotonNetwork.InRoom;
+    //public bool IsConnected => PhotonNetwork.IsConnected;
+    //public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
+    //public bool InLobby => PhotonNetwork.InLobby;
+    //public bool InRoom => PhotonNetwork.InRoom;
+    public bool IsConnectedToMaster { get; private set; }
+    public bool IsConnectedToLobby { get; private set; }
+    public bool IsConnectedToRoom { get; private set; }
     public bool OfflineMode => PhotonNetwork.OfflineMode;
 
     public int PlayerCountInRooms => PhotonNetwork.CountOfPlayersInRooms;
     public int PlayerCountInLobby => PhotonNetwork.CountOfPlayersOnMaster;
-    public List<RoomInfo> roomInfos { get; private set; }
+    public List<RoomInfo> RoomInfos { get; private set; }
 
     public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
@@ -32,8 +35,8 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
         if (Instance != null)
         {
-            LogError($"ERROR - MULTIPLAYER | There is multiple MultiplayerControllers, but it should be only one");
-            LogWarning($"WARNING - MULTIPLAYER | The previous MultiplayerController has been replaced with a new one");
+            LogError($"ERROR - MULTIPLAYER | There is multiple {this}s, but it should be only one");
+            LogWarning($"WARNING - MULTIPLAYER | The previous {this} has been replaced with the new one");
         }
         Instance = this;
     }
@@ -48,6 +51,20 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
     }
 
+    #region PUNCALLBACKS
+
+    public override void OnConnectedToMaster() => IsConnectedToMaster = true;
+
+    public override void OnJoinedLobby() => IsConnectedToLobby = true;
+
+    public override void OnLeftLobby() => IsConnectedToLobby = false;
+
+    public override void OnJoinedRoom() => IsConnectedToRoom = true;
+
+    public override void OnLeftRoom() => IsConnectedToRoom = false;
+
+    #endregion
+
     public string CreateRoomName()
     {
         throw new System.NotImplementedException();
@@ -57,46 +74,45 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedAndReady)
+        while (timeOut >= 0 && !IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        if (IsConnectedAndReady)
-            LogMessage($"DEBUG - MULTIPLAYER | IsConnectedAndReady is {IsConnectedAndReady}");
-        return IsConnectedAndReady;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToMaster is {IsConnectedToMaster}");
+        return IsConnectedToMaster;
     }
 
     public async Task<bool> DisconnectFromMaster(int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.Disconnect();
-        while (timeOut >= 0 && !IsConnectedAndReady)
+        while (timeOut >= 0 && !IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnected is {IsConnected}");
-        return !IsConnected;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToMaster is {IsConnectedToMaster}");
+        return !IsConnectedToMaster;
     }
 
     public async Task<bool> ConnectToLobby(int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.JoinLobby();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !InLobby)
+        while (timeOut >= 0 && !IsConnectedToLobby)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | InLobby is {InLobby}");
-        return InLobby;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToLobby is {IsConnectedToLobby}");
+        return IsConnectedToLobby;
     }
 
     public async Task<bool> StartOfflineMode(int timeOut = TimeOutDelay, int tick = 1)
     {
         if (!PhotonNetwork.OfflineMode)
         {
-            if (IsConnectedAndReady)
+            if (IsConnectedToMaster)
                 await DisconnectFromMaster(timeOut, tick);
             PhotonNetwork.OfflineMode = true;
         }
@@ -104,7 +120,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return OfflineMode;
     }
 
-    public bool StopOfflineMode(int timeOut = TimeOutDelay, int tick = 1)
+    public bool StopOfflineMode()
     {
         PhotonNetwork.OfflineMode = false;
         LogMessage($"DEBUG - MULTIPLAYER | Offline mode is {OfflineMode}");
@@ -115,51 +131,51 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     {
         PhotonNetwork.CreateRoom(roomName, roomOptions, typedLobby, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !InRoom)
+        while (timeOut >= 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | InRoom is {InRoom}");
-        return InRoom;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        return IsConnectedToRoom;
     }
 
     public async Task<bool> JoinOrCreateRoom(string roomName, RoomOptions roomOptions = null, TypedLobby typedLobby = null, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !InRoom)
+        while (timeOut >= 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | InRoom is {InRoom}");
-        return InRoom;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        return IsConnectedToRoom;
     }
 
     public async Task<bool> JoinRandomOrCreateRoom(int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.JoinRandomOrCreateRoom();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !InRoom)
+        while (timeOut >= 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | InRoom is {InRoom}");
-        return InRoom;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        return IsConnectedToRoom;
     }
 
     public async Task<bool> JoinRoom(string roomName, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.JoinRoom(roomName, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !InRoom)
+        while (timeOut >= 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | InRoom is {InRoom}");
-        return InRoom;
+        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        return IsConnectedToRoom;
     }
 }

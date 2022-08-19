@@ -20,7 +20,7 @@ public class MainMenuScreenController : ScreenController
             menuMultiplayerController.StopOfflineMode();
         // This button only works if the connection to the master server has been established
         // DONE possible problems may arise if the connection is lost while in the main menu, additional checks are required
-        if (!menuMultiplayerController.IsConnectedAndReady)
+        if (!menuMultiplayerController.IsConnectedToMaster)
         {
             MultiplayerButton.interactable = false;
             RetryConnection();
@@ -31,7 +31,7 @@ public class MainMenuScreenController : ScreenController
     {
         // Keep trying to connect until this gameObject is no longer active or the connection is succesful
         // We have to check if this is null to avoid errors when the screen is destroyed (Loading a new scene or exiting the game)
-        while (this != null && gameObject.activeInHierarchy && !menuMultiplayerController.IsConnectedAndReady)
+        while (this != null && gameObject.activeInHierarchy && !menuMultiplayerController.IsConnectedToMaster)
         {
             LogMessage("DEBUG - 22 | Retrying connection to master server", DebugTag.Multiplayer);
             MultiplayerButton.interactable = await menuMultiplayerController.ConnectToMaster();
@@ -41,7 +41,7 @@ public class MainMenuScreenController : ScreenController
 
     public void OpenLobby(GameObject lobbyScreen)
     {
-        if (!menuMultiplayerController.IsConnectedAndReady)
+        if (!menuMultiplayerController.IsConnectedToMaster)
         {
             MultiplayerButton.interactable = false;
             RetryConnection();

@@ -16,7 +16,7 @@ public class LoadingMenuScreenController : ScreenController
     public async void OnEnable()
     {
         // If not connected to the master server, attempt the connection
-        if (!menuMultiplayerController.IsConnectedAndReady)
+        if (!menuMultiplayerController.IsConnectedToMaster)
             await menuMultiplayerController.ConnectToMaster();
         // Change screen, don't care if the connection was a success or not
         // since the main menu is the one handling the case where we are not connected
