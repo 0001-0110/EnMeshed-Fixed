@@ -19,12 +19,12 @@ public class LanguageController : DebugMonoBehaviour
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.Language);
+        defaultDebugTag = DebugTag.Language;
 
         if (Instance != null)
         {
-            LogError($"ERROR - 22 | There is multiple MultiplayerControllers, but it should be only one");
-            LogWarning($"WARNING - 22 | The previous MultiplayerController has been replaced with a new one");
+            LogError($"There is multiple {this}s, but it should be only one");
+            LogWarning($"The previous {Instance} has been replaced with a new one");
         }
         Instance = this;
         // TODO what even is that thing ?
@@ -45,7 +45,7 @@ public class LanguageController : DebugMonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LogMessage("DEBUG - 22 | LanguageController.OnSceneLoaded called");
+        //debug.LogMessage("LanguageController.OnSceneLoaded called", gameObject, DebugTag.Language);
         // Clear the list containing all textControllers, to avoid referencing textControllers on another scene (destroyed)
         textControllers = new List<TextController>();
     }
@@ -82,7 +82,7 @@ public class LanguageController : DebugMonoBehaviour
         CurrentLanguage = language;
         // Save this value for the next time the app is used
         PlayerPrefs.SetInt(LanguagePreferenceKey, (int)CurrentLanguage);
-        LogMessage($"DEBUG - 22 | CurrentLanguage: {CurrentLanguage}");
+        LogMessage($"CurrentLanguage: {CurrentLanguage}");
         
         LocalizationStrings = new Dictionary<string, string>();
         foreach (string fileName in new string[] { "General", CurrentLanguage.ToString() })
@@ -108,7 +108,7 @@ public class LanguageController : DebugMonoBehaviour
         if (!LocalizationStrings.ContainsKey(localizationString))
         {
             // If there is no translation available
-            LogWarning($"WARNING: Missing translation for {localizationString}");
+            LogWarning($"Missing translation for {localizationString}");
             return localizationString;
         }
         else

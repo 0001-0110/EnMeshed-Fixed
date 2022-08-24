@@ -8,7 +8,6 @@ public class RoomController : DebugMonoBehaviour
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.Level);
 
         triggerCollider = GetComponent<Collider2D>();
     }

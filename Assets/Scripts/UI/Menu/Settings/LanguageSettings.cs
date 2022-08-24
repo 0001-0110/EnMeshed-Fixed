@@ -27,8 +27,6 @@ public class LanguageSettings : DebugMonoBehaviour
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.UI);
-        debugTags.Add(DebugTag.Language);
 
         languageController = LanguageController.Instance;
         InitLanguageSelection();

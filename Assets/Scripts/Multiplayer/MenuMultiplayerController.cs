@@ -5,12 +5,17 @@ using Photon.Realtime;
 
 public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 {
+    private DebugController debug;
     public static MenuMultiplayerController Instance { get; private set; }
 
     /// <summary>
     /// Delay before time out (ms)
     /// </summary>
-    public const int TimeOutDelay = 2000;
+    /// <remarks>
+    /// <para>A short timeOut can stop a succesful connection</para>
+    /// <para>2000 already proved to be too little</para>
+    /// </remarks>
+    public const int TimeOutDelay = 5000;
 
     //public bool IsConnected => PhotonNetwork.IsConnected;
     //public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
@@ -30,13 +35,12 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
     public override void Awake()
     {
-        // This class does not need to init debugTags since it inherits from DebugMonoBehaviourPunCallbacks, which already does that
         base.Awake();
 
         if (Instance != null)
         {
-            LogError($"ERROR - MULTIPLAYER | There is multiple {this}s, but it should be only one");
-            LogWarning($"WARNING - MULTIPLAYER | The previous {this} has been replaced with the new one");
+            LogWarning($"There is multiple {this}s, but it should be only one", DebugTag.Multiplayer);
+            LogWarning($"The previous {Instance} has been replaced with the new one", DebugTag.Multiplayer);
         }
         Instance = this;
     }
@@ -54,6 +58,8 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     #region PUNCALLBACKS
 
     public override void OnConnectedToMaster() => IsConnectedToMaster = true;
+
+    public override void OnDisconnected(DisconnectCause cause) => IsConnectedToMaster = false;
 
     public override void OnJoinedLobby() => IsConnectedToLobby = true;
 
@@ -79,19 +85,19 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToMaster is {IsConnectedToMaster}");
+        LogMessage($"IsConnectedToMaster is {IsConnectedToMaster}");
         return IsConnectedToMaster;
     }
 
     public async Task<bool> DisconnectFromMaster(int timeOut = TimeOutDelay, int tick = 1)
     {
         PhotonNetwork.Disconnect();
-        while (timeOut >= 0 && !IsConnectedToMaster)
+        while (timeOut >= 0 && IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToMaster is {IsConnectedToMaster}");
+        LogMessage($"IsConnectedToMaster is {IsConnectedToMaster}");
         return !IsConnectedToMaster;
     }
 
@@ -104,7 +110,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToLobby is {IsConnectedToLobby}");
+        LogMessage($"IsConnectedToLobby is {IsConnectedToLobby}");
         return IsConnectedToLobby;
     }
 
@@ -116,14 +122,14 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
                 await DisconnectFromMaster(timeOut, tick);
             PhotonNetwork.OfflineMode = true;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | Offline mode is {OfflineMode}");
+        LogMessage($"Offline mode is {OfflineMode}");
         return OfflineMode;
     }
 
     public bool StopOfflineMode()
     {
         PhotonNetwork.OfflineMode = false;
-        LogMessage($"DEBUG - MULTIPLAYER | Offline mode is {OfflineMode}");
+        LogMessage($"Offline mode is {OfflineMode}");
         return !OfflineMode;
     }
 
@@ -136,7 +142,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
         return IsConnectedToRoom;
     }
 
@@ -149,7 +155,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
         return IsConnectedToRoom;
     }
 
@@ -162,7 +168,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
         return IsConnectedToRoom;
     }
 
@@ -175,7 +181,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             await Task.Delay(tick);
             timeOut -= tick;
         }
-        LogMessage($"DEBUG - MULTIPLAYER | IsConnectedToRoom is {IsConnectedToRoom}");
+        LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
         return IsConnectedToRoom;
     }
 }

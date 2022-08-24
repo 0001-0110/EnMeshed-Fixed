@@ -33,16 +33,31 @@ public class DebugController : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogWarning($"ERROR - 22 | There is multiple DebugController, but it should be only one");
-            Debug.LogWarning($"WARNING - 22 | The previous DebugController has been replaced with a new one");
+            // Using unity debug directly because activeDebugTag is not yet ready
+            Debug.LogWarning($"WARNING: DEBUG - There is multiple {this}s, but it should be only one");
+            Debug.LogWarning($"WARNING: DEBUG - The previous {this} has been replaced with a new one");
         }
         Instance = this;
 
         // This gameObject is not going to be destroyed when loading another scene
         DontDestroyOnLoad(gameObject);
+
         // Only log debugs if this build is a debug build
         Debug.unityLogger.logEnabled = Debug.isDebugBuild;
+        // Even tho this method is already called by OnValidate, OnValidate only works in editor
+        // We must keep it for the builds
+        SetActiveDebugTags();
 
+        Initialised = true;
+    }
+
+    public void OnValidate()
+    {
+        SetActiveDebugTags();
+    }
+
+    private void SetActiveDebugTags()
+    {
         activeDebugTags = new Dictionary<DebugTag, bool>()
         {
             [DebugTag.Debug] = debugDebug,
@@ -57,56 +72,31 @@ public class DebugController : MonoBehaviour
         };
         if (activeDebugTags.Count != Enum.GetNames(typeof(DebugTag)).Length)
             Debug.LogWarning($"activeDebugTags is missing some DebugTags");
-
-        Initialised = true;
     }
 
-    private bool IsDebugTagActive(List<DebugTag> debugTags)
+    public bool IsDebugTagActive(DebugTag debugTag)
     {
-        if (activeDebugTags == null)
-            Debug.LogError($"{gameObject} is trying to log debug, but activeDebugTags has not been set correclty");
-        if (debugTags == null || debugTags.Count == 0)
-            Debug.LogError("The list of debug tag is null or empty");
-
-        foreach (DebugTag debugTag in debugTags)
-            if (activeDebugTags[debugTag])
-                return true;
-        return false;
+        return activeDebugTags[debugTag];
     }
 
-    public void LogMessage(string message, List<DebugTag> debugTags)
+    /*public void LogMessage(string message, UnityEngine.Object context, DebugTag debugTag)
     {
-        if (IsDebugTagActive(debugTags))
-            Debug.Log(message);
+        // TODO potential fixes
+        if (activeDebugTags[debugTag])
+            Debug.Log($"Message:{debugTag} - {message}", context);
     }
 
-    public void LogMessage(string message, UnityEngine.Object context, List<DebugTag> debugTags)
+    public void LogWarning(string message, UnityEngine.Object context, DebugTag debugTag, params string[] potentialFixes)
     {
-        if (IsDebugTagActive(debugTags))
-            Debug.Log(message, context);
+        // TODO potential fixes
+        if (activeDebugTags[debugTag])
+            Debug.LogWarning($"Warning:{debugTag} - {message}", context);
     }
 
-    public void LogWarning(string message, List<DebugTag> debugTags)
+    public void LogError(string message, UnityEngine.Object context, DebugTag debugTag, params string[] potentialFixes)
     {
-        if (IsDebugTagActive(debugTags))
-            Debug.LogWarning(message);
-    }
-
-    public void LogWarning(string message, UnityEngine.Object context, List<DebugTag> debugTags)
-    {
-        if (IsDebugTagActive(debugTags))
-            Debug.LogWarning(message, context);
-    }
-
-    public void LogError(string message, List<DebugTag> debugTags)
-    {
-        if (IsDebugTagActive(debugTags))
-            Debug.LogError(message);
-    }
-
-    public void LogError(string message, UnityEngine.Object context, List<DebugTag> debugTags)
-    {
-        if (IsDebugTagActive(debugTags))
-            Debug.LogError(message, context);
-    }
+        // TODO potential fixes
+        if (activeDebugTags[debugTag])
+            Debug.LogError($"Error:{debugTag} - {message}", context);
+    }*/
 }

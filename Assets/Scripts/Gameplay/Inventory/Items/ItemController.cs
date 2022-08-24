@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ItemController : MonoBehaviour
+public class ItemController : DebugMonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static ItemController Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    public override void Awake()
     {
-        
+        base.Awake();
+        defaultDebugTag = DebugTag.Inventory;
+
+        if (Instance != null)
+        {
+            LogWarning($"There is multiple {this}s, but it should be only one");
+            LogWarning($"The previous {Instance} has been replaced with the new one");
+        }
+        Instance = this;
     }
 }

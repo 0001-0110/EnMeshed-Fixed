@@ -13,7 +13,7 @@ public class TextController : DebugMonoBehaviour
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.Language);
+        defaultDebugTag = DebugTag.Language;
 
         languageController = LanguageController.Instance;
         // Add this TextController to the list of controllers to be updated in case of a language modification
@@ -21,7 +21,7 @@ public class TextController : DebugMonoBehaviour
 
         text = GetComponent<TextMeshProUGUI>();
         if (text == null)
-            LogWarning($"This TextController is missing a text to control\nThis may be due to the text not being a TextMeshProUGUI");
+            LogWarning($"This TextController is missing a text to control", "This may be due to the text not being a TextMeshProUGUI");
 
         UpdateText();
     }

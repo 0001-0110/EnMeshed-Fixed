@@ -1,44 +1,33 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
 public abstract class DebugMonoBehaviourPunCallbacks : MonoBehaviourPunCallbacks
 {
     protected DebugController debugController;
-    protected List<DebugTag> DebugTags = new List<DebugTag>() { DebugTag.Multiplayer };
+    protected const DebugTag defaultDebugTag = DebugTag.Multiplayer;
 
     public virtual void Awake()
     {
-        debugController = GameObject.Find("DebugController").GetComponent<DebugController>();
+        debugController = DebugController.Instance;
     }
 
-    protected void LogMessage(string message)
+    protected void LogMessage(string message, DebugTag debugTag = defaultDebugTag)
     {
-        debugController.LogMessage(message, gameObject, DebugTags);
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.Log($"Message:{debugTag} - {message}");
     }
 
-    protected void LogMessage(string message, Object context)
+    protected void LogWarning(string message, DebugTag debugTag = defaultDebugTag, params string[] potentialFixes)
     {
-        debugController.LogMessage(message, context, DebugTags);
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.LogWarning($"Warning:{debugTag} - {message}");
     }
 
-    protected void LogWarning(string message)
+    protected void LogError(string message, DebugTag debugTag = defaultDebugTag, params string[] potentialFixes)
     {
-        debugController.LogWarning(message, gameObject, DebugTags);
-    }
-
-    protected void LogWarning(string message, Object context)
-    {
-        debugController.LogWarning(message, context, DebugTags);
-    }
-
-    protected void LogError(string message)
-    {
-        debugController.LogError(message, gameObject, DebugTags);
-    }
-
-    protected void LogError(string message, Object context)
-    {
-        debugController.LogError(message, context, DebugTags);
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.LogError($"Error:{debugTag} - {message}");
     }
 }

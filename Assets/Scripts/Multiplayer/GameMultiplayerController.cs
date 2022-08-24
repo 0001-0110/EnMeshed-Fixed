@@ -1,11 +1,11 @@
-public class UIController : DebugMonoBehaviour
+public class GameMultiplayerController : DebugMonoBehaviour
 {
-    public static UIController Instance { get; private set; }
+    public static GameMultiplayerController Instance { get; private set; }
 
     public override void Awake()
     {
         base.Awake();
-        defaultDebugTag = DebugTag.UI;
+        defaultDebugTag = DebugTag.Multiplayer;
 
         if (Instance != null)
         {

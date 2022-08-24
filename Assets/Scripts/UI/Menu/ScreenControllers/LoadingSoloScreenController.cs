@@ -1,8 +1,3 @@
-using UnityEngine.SceneManagement;
-using Photon.Realtime;
-using System.Threading.Tasks;
-
-
 public class LoadingSoloScreenController : GameLoadingScreenController
 {
     private const string SoloRoomName = "SoloRoom";
@@ -12,7 +7,6 @@ public class LoadingSoloScreenController : GameLoadingScreenController
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.Multiplayer);
 
         menuMultiplayerController = MenuMultiplayerController.Instance;
     }

@@ -2,15 +2,14 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 
-using Services;
-
 public class GameController : DebugMonoBehaviour
 {
     public GameObject PlayerPrefab;
 
-    public ItemController ItemController;
-    public MapController MapController;
-    public UIController UIController;
+    private GameMultiplayerController gameMultiplayerController;
+    private ItemController itemController;
+    private MapController mapController;
+    private UIController UIController;
 
     public override void Awake()
     {
@@ -20,17 +19,24 @@ public class GameController : DebugMonoBehaviour
         base.Awake();
         // This controller is handling a lot of different things, debugTags must be provided independently
 
-        PhotonService.AddToPrefabPool(PlayerPrefab);
+        gameMultiplayerController = GameMultiplayerController.Instance;
+        itemController = ItemController.Instance;
+        mapController = MapController.Instance;
+        UIController = UIController.Instance;
+    }
+
+    public void Start()
+    {
         SpawnPlayer();
     }
 
     private void SpawnPlayer()
     {
-        PhotonNetwork.Instantiate(PlayerPrefab.name, MapController.GetPlayerSpawnPosition(), Quaternion.identity);
+        PhotonNetwork.Instantiate(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity);
     }
 
     private void SpawnEVA()
     {
-        PhotonNetwork.Instantiate(PlayerPrefab.name, MapController.GetPlayerSpawnPosition(), Quaternion.identity);
+        PhotonNetwork.InstantiateRoomObject(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity);
     }
 }

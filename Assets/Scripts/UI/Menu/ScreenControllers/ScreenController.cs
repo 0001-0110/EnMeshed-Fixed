@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class ScreenController : DebugMonoBehaviour
 {
     /// <summary>
-    /// TODO
+    /// Use this to select the screen that is going to be visible when going back to the menu
     /// </summary>
     /// <remarks>
     /// <para> If null, ScreenControllers will ignore it </para>
@@ -14,13 +14,11 @@ public abstract class ScreenController : DebugMonoBehaviour
     public override void Awake()
     {
         base.Awake();
-        debugTags.Add(DebugTag.UI);
+        defaultDebugTag = DebugTag.UI;
     }
 
-    public override void Start()
+    public virtual void Start()
     {
-        base.Start();
-
         // If ActiveScreen is null, keep the same active state for all screenControllers
         if (ActiveScreen != null)
             gameObject.SetActive(gameObject == ActiveScreen);
@@ -31,7 +29,7 @@ public abstract class ScreenController : DebugMonoBehaviour
         ActiveScreen = screen;
         screen.SetActive(true);
         gameObject.SetActive(false);
-        LogMessage($"DEBUG - UI | ActiveScreen is {ActiveScreen}");
+        LogMessage($"ActiveScreen is {ActiveScreen}");
     }
 
     public void Quit()

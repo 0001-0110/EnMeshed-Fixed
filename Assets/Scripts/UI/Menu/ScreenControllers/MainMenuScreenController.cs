@@ -11,6 +11,7 @@ public class MainMenuScreenController : ScreenController
     public override void Awake()
     {
         base.Awake();
+
         menuMultiplayerController = MenuMultiplayerController.Instance;
     }
 
@@ -33,7 +34,7 @@ public class MainMenuScreenController : ScreenController
         // We have to check if this is null to avoid errors when the screen is destroyed (Loading a new scene or exiting the game)
         while (this != null && gameObject.activeInHierarchy && !menuMultiplayerController.IsConnectedToMaster)
         {
-            LogMessage("DEBUG - 22 | Retrying connection to master server", DebugTag.Multiplayer);
+            LogMessage("Retrying connection to master server", DebugTag.Multiplayer);
             MultiplayerButton.interactable = await menuMultiplayerController.ConnectToMaster();
             await Task.Delay(refreshDelay);
         }

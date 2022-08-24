@@ -1,80 +1,52 @@
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class DebugMonoBehaviour : MonoBehaviour
 {
     protected DebugController debugController;
-    protected List<DebugTag> debugTags;
+    protected DebugTag defaultDebugTag;
 
     public virtual void Awake()
     {
         debugController = DebugController.Instance;
-        debugTags = new List<DebugTag>();
     }
 
-    public virtual void Start()
+    protected void LogMessage(string message, DebugTag debugTag)
     {
-        // TODO remove ?
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.Log($"Message:{debugTag} - {message}");
     }
 
     protected void LogMessage(string message)
     {
-        debugController.LogMessage(message, gameObject, debugTags);
+        if (debugController.IsDebugTagActive(defaultDebugTag))
+            Debug.Log($"Message:{defaultDebugTag} - {message}");
     }
 
-    protected void LogMessage(string message, params DebugTag[] debugTags)
+    protected void LogWarning(string message, DebugTag debugTag, params string[] potentialFixes)
     {
-        debugController.LogMessage(message, gameObject, debugTags.ToList());
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.LogWarning($"Warning:{debugTag} - {message}");
     }
 
-    protected void LogMessage(string message, Object context)
+    protected void LogWarning(string message, params string[] potentialFixes)
     {
-        debugController.LogMessage(message, context, debugTags);
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(defaultDebugTag))
+            Debug.LogWarning($"Warning:{defaultDebugTag} - {message}");
     }
 
-    protected void LogMessage(string message, Object context, params DebugTag[] debugTags)
+    protected void LogError(string message, DebugTag debugTag, params string[] potentialFixes)
     {
-        debugController.LogMessage(message, context, debugTags.ToList());
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(debugTag))
+            Debug.LogError($"Error:{debugTag} - {message}");
     }
 
-    protected void LogWarning(string message)
+    protected void LogError(string message, params string[] potentialFixes)
     {
-        debugController.LogWarning(message, gameObject, debugTags);
-    }
-
-    protected void LogWarning(string message, params DebugTag[] debugTags)
-    {
-        debugController.LogWarning(message, gameObject, debugTags.ToList());
-    }
-
-    protected void LogWarning(string message, Object context)
-    {
-        debugController.LogWarning(message, context, debugTags);
-    }
-
-    protected void LogWarning(string message, Object context, params DebugTag[] debugTags)
-    {
-        debugController.LogWarning(message, context, debugTags.ToList());
-    }
-
-    protected void LogError(string message)
-    {
-        debugController.LogError(message, gameObject, debugTags);
-    }
-
-    protected void LogError(string message, params DebugTag[] debugTags)
-    {
-        debugController.LogError(message, gameObject, debugTags.ToList());
-    }
-
-    protected void LogError(string message, Object context)
-    {
-        debugController.LogError(message, context, debugTags);
-    }
-
-    protected void LogError(string message, Object context, params DebugTag[] debugTags)
-    {
-        debugController.LogError(message, context, debugTags.ToList());
+        // TODO potential fixes
+        if (debugController.IsDebugTagActive(defaultDebugTag))
+            Debug.LogError($"Error:{defaultDebugTag} - {message}");
     }
 }

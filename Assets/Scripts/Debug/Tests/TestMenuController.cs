@@ -20,11 +20,12 @@ public class TestMenuController : DebugMonoBehaviour
     public override async void Awake()
     {
         base.Awake();
+        defaultDebugTag = DebugTag.Multiplayer;
 
         menuMultiplayerController = MenuMultiplayerController.Instance;
 
         if (UserName == string.Empty)
-            menuMultiplayerController.LocalPlayer.NickName = $"TEST_{DateTime.Now.Minute}_{DateTime.Now.Second}";
+            menuMultiplayerController.LocalPlayer.NickName = $"TEST_{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
         else
             menuMultiplayerController.LocalPlayer.NickName = UserName;
 
@@ -36,17 +37,15 @@ public class TestMenuController : DebugMonoBehaviour
         if (online)
         {
             if (await menuMultiplayerController.ConnectToMaster())
-            {
                 if (await menuMultiplayerController.JoinRandomOrCreateRoom())
                 {
-                    LogMessage("Succesfully created or joined an online room", DebugTag.Multiplayer);
+                    LogMessage("Succesfully created or joined an online room");
                     SceneManager.LoadScene(GameSceneName);
                 }
                 else
-                    LogError("Could not connect to room", DebugTag.Multiplayer);
-            }
+                    LogError("Could not connect to room");
             else
-                LogError("Could not connect to master", DebugTag.Multiplayer);
+                LogError("Could not connect to master");
         }
         else
         {
@@ -54,13 +53,13 @@ public class TestMenuController : DebugMonoBehaviour
             if (await menuMultiplayerController.StartOfflineMode())
                 if (await menuMultiplayerController.CreateRoom("SoloRoom"))
                 {
-                    LogMessage("Succesfully created an offline room", DebugTag.Multiplayer);
+                    LogMessage("Succesfully created an offline room");
                     SceneManager.LoadScene(GameSceneName);
                 }
                 else
-                    LogError("Could not create room", DebugTag.Multiplayer);
+                    LogError("Could not create room");
             else
-                LogError("Could not start offline mode", DebugTag.Multiplayer);
+                LogError("Could not start offline mode");
         }
     }
 }

@@ -9320,8 +9320,8 @@ MonoBehaviour:
   debugUI: 1
   debugLanguage: 0
   debugMultiplayer: 1
-  debugGameplay: 0
-  debugLevel: 0
+  debugGameplay: 1
+  debugLevel: 1
   debugInventory: 1
   debugEntities: 1
   debugAI: 1
