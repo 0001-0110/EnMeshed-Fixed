@@ -83,14 +83,15 @@ public class LanguageController : DebugMonoBehaviour
         // Save this value for the next time the app is used
         PlayerPrefs.SetInt(LanguagePreferenceKey, (int)CurrentLanguage);
         LogMessage($"CurrentLanguage: {CurrentLanguage}");
-        
+
         LocalizationStrings = new Dictionary<string, string>();
         foreach (string fileName in new string[] { "General", CurrentLanguage.ToString() })
         {
             foreach (XmlNode node in LoadLocalizationFile(fileName))
             {
-                // "name" is the attribute containing the localization string in the xml file
-                LocalizationStrings.Add(node.Attributes["name"].Value, node.InnerText);
+                if (node.InnerText != string.Empty)
+                    // "name" is the attribute containing the localization string in the xml file
+                    LocalizationStrings.Add(node.Attributes["name"].Value, node.InnerText);
             }
         }
 

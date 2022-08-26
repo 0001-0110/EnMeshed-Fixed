@@ -86,16 +86,13 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
     public async Task<bool> ConnectToMaster(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
-        System.DateTime start = System.DateTime.Now;
         PhotonNetwork.ConnectUsingSettings();
         // Wait for the connection to be established or the time out to be reached
         while (timeOut > 0 && !IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
-            //LogMessage($"Time remaining before time out: {timeOut}");
         }
-        //LogMessage($"Total execution time: {System.DateTime.Now - start}");
         LogMessage($"IsConnectedToMaster is {IsConnectedToMaster}");
         return IsConnectedToMaster;
     }

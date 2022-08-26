@@ -31,7 +31,7 @@ public class UserNameScreenController : ScreenController
     private async void InputInvalid(int delay = 2000)
     {
         ValidateUserNameButton.interactable = false;
-        string baseLocalizationString = ValidateUserNameButtonTextController.localizationString;
+        string baseLocalizationString = ValidateUserNameButtonTextController.LocalizationString;
         ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);
         await Task.Delay(delay);
         ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);

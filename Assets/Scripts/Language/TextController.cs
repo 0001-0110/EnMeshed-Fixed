@@ -8,7 +8,7 @@ public class TextController : DebugMonoBehaviour
     private LanguageController languageController;
     private TextMeshProUGUI text;
 
-    public string localizationString;
+    public string LocalizationString;
 
     public override void Awake()
     {
@@ -16,7 +16,7 @@ public class TextController : DebugMonoBehaviour
         defaultDebugTag = DebugTag.Language;
 
         languageController = LanguageController.Instance;
-        // Add this TextController to the list of controllers to be updated in case of a language modification
+        // Add this TextController to the list of controllers to be updated in case of a language change
         languageController.textControllers.Add(this);
 
         text = GetComponent<TextMeshProUGUI>();
@@ -34,12 +34,17 @@ public class TextController : DebugMonoBehaviour
 
     public void UpdateText()
     {
-        SetText(localizationString);
+        if (LocalizationString == string.Empty)
+        {
+            LogWarning("WARNING: Language - Missing localization string", gameObject);
+            return;
+        }
+        SetText(LocalizationString);
     }
 
     public void SetText(string localizationString)
     {
-        this.localizationString = localizationString;
+        this.LocalizationString = localizationString;
         // text might be null if SetText is called before this object is enabled
         // This is not a problem tho, as it will only update the localization string and wiat for OnEnable to update the text
         if (text != null)
