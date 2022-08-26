@@ -1,6 +1,9 @@
+using Photon.Pun;
+
 public class GameMultiplayerController : DebugMonoBehaviour
 {
     public static GameMultiplayerController Instance { get; private set; }
+    public bool IsConnectedToRoom => PhotonNetwork.InRoom;
 
     public override void Awake()
     {

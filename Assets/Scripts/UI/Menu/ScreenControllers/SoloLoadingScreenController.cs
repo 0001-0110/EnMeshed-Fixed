@@ -1,4 +1,4 @@
-public class LoadingSoloScreenController : GameLoadingScreenController
+public class SoloLoadingScreenController : GameLoadingScreenController
 {
     private const string SoloRoomName = "SoloRoom";
 

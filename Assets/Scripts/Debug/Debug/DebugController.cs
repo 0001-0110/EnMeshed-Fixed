@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DebugController : MonoBehaviour
 {
-    public static bool Initialised { get; private set; }
     public static DebugController Instance { get; private set; }
 
     // These variables are only used in the editor
@@ -47,8 +46,6 @@ public class DebugController : MonoBehaviour
         // Even tho this method is already called by OnValidate, OnValidate only works in editor
         // We must keep it for the builds
         SetActiveDebugTags();
-
-        Initialised = true;
     }
 
     public void OnValidate()

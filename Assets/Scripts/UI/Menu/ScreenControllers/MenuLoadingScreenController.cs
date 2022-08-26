@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LoadingMenuScreenController : ScreenController
+public class MenuLoadingScreenController : ScreenController
 {
     private MenuMultiplayerController menuMultiplayerController;
 
@@ -16,6 +16,7 @@ public class LoadingMenuScreenController : ScreenController
     public async void OnEnable()
     {
         // If not connected to the master server, attempt the connection
+        // No particular reason for this check, but we never know
         if (!menuMultiplayerController.IsConnectedToMaster)
             await menuMultiplayerController.ConnectToMaster();
         // Change screen, don't care if the connection was a success or not

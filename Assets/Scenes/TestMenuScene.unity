@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameSceneName: GameScene
-  Online: 1
+  Online: 0
   UserName: 
 --- !u!4 &1697971253
 Transform:

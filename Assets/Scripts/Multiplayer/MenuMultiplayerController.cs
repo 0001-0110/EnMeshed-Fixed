@@ -12,10 +12,18 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// Delay before time out (ms)
     /// </summary>
     /// <remarks>
-    /// <para>A short timeOut can stop a succesful connection</para>
+    /// <para>A short timeOutDelay can stop a succesful connection</para>
     /// <para>2000 already proved to be too little</para>
     /// </remarks>
     public const int TimeOutDelay = 5000;
+
+    /// <summary>
+    /// Default time between each check
+    /// </summary>
+    /// <remarks>
+    /// <para>A tick too short might create some performance issués</para>
+    /// </remarks>
+    public const int defaultTick = 250;
 
     //public bool IsConnected => PhotonNetwork.IsConnected;
     //public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
@@ -39,8 +47,8 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
         if (Instance != null)
         {
-            LogWarning($"There is multiple {this}s, but it should be only one", DebugTag.Multiplayer);
-            LogWarning($"The previous {Instance} has been replaced with the new one", DebugTag.Multiplayer);
+            LogWarning($"There is multiple {this}s, but it should be only one");
+            LogWarning($"The previous {Instance} has been replaced with the new one");
         }
         Instance = this;
     }
@@ -76,23 +84,26 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         throw new System.NotImplementedException();
     }
 
-    public async Task<bool> ConnectToMaster(int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> ConnectToMaster(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
+        System.DateTime start = System.DateTime.Now;
         PhotonNetwork.ConnectUsingSettings();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToMaster)
+        while (timeOut > 0 && !IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
+            //LogMessage($"Time remaining before time out: {timeOut}");
         }
+        //LogMessage($"Total execution time: {System.DateTime.Now - start}");
         LogMessage($"IsConnectedToMaster is {IsConnectedToMaster}");
         return IsConnectedToMaster;
     }
 
-    public async Task<bool> DisconnectFromMaster(int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> DisconnectFromMaster(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         PhotonNetwork.Disconnect();
-        while (timeOut >= 0 && IsConnectedToMaster)
+        while (timeOut > 0 && IsConnectedToMaster)
         {
             await Task.Delay(tick);
             timeOut -= tick;
@@ -101,11 +112,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return !IsConnectedToMaster;
     }
 
-    public async Task<bool> ConnectToLobby(int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> ConnectToLobby(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         PhotonNetwork.JoinLobby();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToLobby)
+        while (timeOut > 0 && !IsConnectedToLobby)
         {
             await Task.Delay(tick);
             timeOut -= tick;
@@ -114,7 +125,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return IsConnectedToLobby;
     }
 
-    public async Task<bool> StartOfflineMode(int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> StartOfflineMode(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         if (!PhotonNetwork.OfflineMode)
         {
@@ -137,7 +148,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     {
         PhotonNetwork.CreateRoom(roomName, roomOptions, typedLobby, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToRoom)
+        while (timeOut > 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
@@ -146,11 +157,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return IsConnectedToRoom;
     }
 
-    public async Task<bool> JoinOrCreateRoom(string roomName, RoomOptions roomOptions = null, TypedLobby typedLobby = null, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> JoinOrCreateRoom(string roomName, RoomOptions roomOptions = null, TypedLobby typedLobby = null, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToRoom)
+        while (timeOut > 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
@@ -159,11 +170,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return IsConnectedToRoom;
     }
 
-    public async Task<bool> JoinRandomOrCreateRoom(int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> JoinRandomOrCreateRoom(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         PhotonNetwork.JoinRandomOrCreateRoom();
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToRoom)
+        while (timeOut > 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
@@ -172,11 +183,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         return IsConnectedToRoom;
     }
 
-    public async Task<bool> JoinRoom(string roomName, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = 1)
+    public async Task<bool> JoinRoom(string roomName, string[] expectedUsers = null, int timeOut = TimeOutDelay, int tick = defaultTick)
     {
         PhotonNetwork.JoinRoom(roomName, expectedUsers);
         // Wait for the connection to be established or the time out to be reached
-        while (timeOut >= 0 && !IsConnectedToRoom)
+        while (timeOut > 0 && !IsConnectedToRoom)
         {
             await Task.Delay(tick);
             timeOut -= tick;
