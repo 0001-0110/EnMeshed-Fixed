@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 {
-    private DebugController debug;
     public static MenuMultiplayerController Instance { get; private set; }
 
     /// <summary>
@@ -15,7 +15,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// <para>A short timeOutDelay can stop a succesful connection</para>
     /// <para>2000 already proved to be too little</para>
     /// </remarks>
-    public const int TimeOutDelay = 5000;
+    private const int TimeOutDelay = 5000;
 
     /// <summary>
     /// Default time between each check
@@ -23,7 +23,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// <remarks>
     /// <para>A tick too short might create some performance issués</para>
     /// </remarks>
-    public const int defaultTick = 250;
+    private const int defaultTick = 250;
 
     //public bool IsConnected => PhotonNetwork.IsConnected;
     //public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
@@ -40,6 +40,10 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
     public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
+
+    // TODO may not be the best solution
+    [Tooltip("The name of the scene that is going to be loaded when joining a room")]
+    public string GameSceneName;
 
     public override void Awake()
     {
@@ -73,7 +77,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
     public override void OnLeftLobby() => IsConnectedToLobby = false;
 
-    public override void OnJoinedRoom() => IsConnectedToRoom = true;
+    public override void OnJoinedRoom()
+    {
+        IsConnectedToRoom = true;
+        PhotonNetwork.LoadLevel(GameSceneName);
+    }
 
     public override void OnLeftRoom() => IsConnectedToRoom = false;
 

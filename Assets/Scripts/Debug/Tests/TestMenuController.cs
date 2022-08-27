@@ -7,9 +7,6 @@ public class TestMenuController : DebugMonoBehaviour
 {
     private MenuMultiplayerController menuMultiplayerController;
 
-    // TODO not the best solution
-    public string GameSceneName;
-
     // TODO implement offline mode for testing
     [Tooltip("Choose wether to laucnh the game as online or offline")]
     public bool Online;
@@ -38,10 +35,7 @@ public class TestMenuController : DebugMonoBehaviour
         {
             if (await menuMultiplayerController.ConnectToMaster())
                 if (await menuMultiplayerController.JoinRandomOrCreateRoom())
-                {
                     LogMessage("Succesfully created or joined an online room");
-                    SceneManager.LoadScene(GameSceneName);
-                }
                 else
                     LogError("Could not connect to room");
             else
@@ -52,10 +46,7 @@ public class TestMenuController : DebugMonoBehaviour
             // Offline
             if (await menuMultiplayerController.StartOfflineMode())
                 if (await menuMultiplayerController.CreateRoom("SoloRoom"))
-                {
                     LogMessage("Succesfully created an offline room");
-                    SceneManager.LoadScene(GameSceneName);
-                }
                 else
                     LogError("Could not create room");
             else
