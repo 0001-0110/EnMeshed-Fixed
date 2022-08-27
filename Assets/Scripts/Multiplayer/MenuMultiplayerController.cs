@@ -25,10 +25,6 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// </remarks>
     private const int defaultTick = 250;
 
-    //public bool IsConnected => PhotonNetwork.IsConnected;
-    //public bool IsConnectedAndReady => PhotonNetwork.IsConnectedAndReady;
-    //public bool InLobby => PhotonNetwork.InLobby;
-    //public bool InRoom => PhotonNetwork.InRoom;
     public bool IsConnectedToMaster { get; private set; }
     public bool IsConnectedToLobby { get; private set; }
     public bool IsConnectedToRoom { get; private set; }
@@ -41,7 +37,9 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
 
-    // TODO may not be the best solution
+    ///<remarks>
+    /// TODO may not be the best solution in case of the scene being renamed
+    /// </remarks>
     [Tooltip("The name of the scene that is going to be loaded when joining a room")]
     public string GameSceneName;
 
