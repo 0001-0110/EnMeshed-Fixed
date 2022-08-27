@@ -21,6 +21,8 @@ public class MenuLoadingScreenController : ScreenController
             await menuMultiplayerController.ConnectToMaster();
         // Change screen, don't care if the connection was a success or not
         // since the main menu is the one handling the case where we are not connected
-        OpenScreen(UserNameScreen);
+        // But we need to make sure the app is still running before switching screens
+        if (this != null)
+            OpenScreen(UserNameScreen);
     }
 }
