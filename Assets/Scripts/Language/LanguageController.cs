@@ -106,6 +106,8 @@ public class LanguageController : DebugMonoBehaviour
 
     public string GetText(string localizationString)
     {
+        // TODO handle the case when the language is still loading
+
         if (!LocalizationStrings.ContainsKey(localizationString))
         {
             // If there is no translation available

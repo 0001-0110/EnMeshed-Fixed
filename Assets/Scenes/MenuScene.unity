@@ -5701,7 +5701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
+  LocalizationString: '{Menu_Text_Loading}'
 --- !u!114 &1010844424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9318,7 +9318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugDebug: 1
   debugUI: 1
-  debugLanguage: 0
+  debugLanguage: 1
   debugMultiplayer: 1
   debugGameplay: 1
   debugLevel: 1

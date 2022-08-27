@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using TMPro;
 
 /// <summary>
@@ -5,6 +6,9 @@ using TMPro;
 /// </summary>
 public class TextController : DebugMonoBehaviour
 {
+    // Regex that matches every localization in between curly braces
+    private static Regex regex = new Regex("{([^}]*)}");
+
     private LanguageController languageController;
     private TextMeshProUGUI text;
 
@@ -34,20 +38,27 @@ public class TextController : DebugMonoBehaviour
 
     public void UpdateText()
     {
-        if (LocalizationString == string.Empty)
-        {
-            LogWarning("WARNING: Language - Missing localization string", gameObject);
-            return;
-        }
         SetText(LocalizationString);
     }
 
     public void SetText(string localizationString)
     {
-        this.LocalizationString = localizationString;
+        if (localizationString == string.Empty)
+        {
+            LogWarning("WARNING: Language - Missing localization string", gameObject);
+            return;
+        }
+
+        LocalizationString = localizationString;
         // text might be null if SetText is called before this object is enabled
         // This is not a problem tho, as it will only update the localization string and wiat for OnEnable to update the text
         if (text != null)
-            text.text = languageController.GetText(localizationString);
+        {
+            text.text = localizationString;
+            Match match = regex.Match(localizationString);
+            for (int i = 1; i < match.Groups.Count; i++)
+                text.text = regex.Replace(text.text, languageController.GetText(match.Groups[i].Value));
+            LogMessage(text.text);
+        }
     }
 }
