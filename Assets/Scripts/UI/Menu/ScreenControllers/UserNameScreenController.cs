@@ -32,9 +32,9 @@ public class UserNameScreenController : ScreenController
     {
         ValidateUserNameButton.interactable = false;
         string baseLocalizationString = ValidateUserNameButtonTextController.LocalizationString;
-        ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);
+        await ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);
         await Task.Delay(delay);
-        ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);
+        await ValidateUserNameButtonTextController.SetText(InvalidLocalizationString);
         ValidateUserNameButton.interactable = true;
     }
 

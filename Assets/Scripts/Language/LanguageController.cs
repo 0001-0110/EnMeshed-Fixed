@@ -11,9 +11,10 @@ public class LanguageController : DebugMonoBehaviour
     private const string LanguagePreferenceKey = "Language";
 
     public static LanguageController Instance { get; private set; }
-    public List<TextController> textControllers { get; set; }
+    public List<TextController> TextControllers { get; set; }
 
     public Language CurrentLanguage { get; private set; }
+    public bool IsLoading { get; private set; }
     public Dictionary<string, string> LocalizationStrings { get; private set; }
 
     public override void Awake()
@@ -29,7 +30,10 @@ public class LanguageController : DebugMonoBehaviour
         Instance = this;
         // TODO what even is that thing ?
         SceneManager.sceneLoaded += OnSceneLoaded;
-        textControllers = new List<TextController>();
+        // Because OnSceneLoaded apparently doesn't run when the first scene is loaded
+        TextControllers = new List<TextController>();
+
+        IsLoading = true;
 
         DontDestroyOnLoad(gameObject);
 
@@ -47,7 +51,7 @@ public class LanguageController : DebugMonoBehaviour
     {
         //debug.LogMessage("LanguageController.OnSceneLoaded called", gameObject, DebugTag.Language);
         // Clear the list containing all textControllers, to avoid referencing textControllers on another scene (destroyed)
-        textControllers = new List<TextController>();
+        TextControllers = new List<TextController>();
     }
 
     private Language GetSystemLanguage(Language DefaultLanguage = Language.English)
@@ -55,26 +59,24 @@ public class LanguageController : DebugMonoBehaviour
         return Enum.IsDefined(typeof(Language), (int)Application.systemLanguage) ? DefaultLanguage : (Language)Application.systemLanguage;
     }
 
-    private XmlNodeList LoadLocalizationFile(string fileName)
+    private async Task<XmlNodeList> LoadLocalizationFile(string fileName)
     {
-        XmlDocument localizationFile = Services.FileService.LoadXml($"LocalizationFiles/{fileName}.xml");
+        XmlDocument localizationFile = await Services.FileService.LoadXmlAsync($"LocalizationFiles/{fileName}.xml");
         return localizationFile.SelectNodes($"{fileName}/string");
     }
 
-    private async Task UpdateAllTextControllers()
+    private async Task UpdateAllTextControllersAsync()
     {
-        /*foreach (TextController textController in textControllers)
-            textController.UpdateText();*/
-
         // TODO this code need some serious testing, I have no idea if this can work
         List<Task> tasks = new List<Task>();
-        foreach (TextController textController in textControllers)
+        foreach (TextController textController in TextControllers)
             tasks.Add(Task.Run(textController.UpdateText));
         await Task.WhenAll(tasks);
     }
 
     public async void SetLanguage(Language language)
     {
+        IsLoading = true;
         // If the language is not defined, trying to load could create many errors
         if (!Enum.IsDefined(typeof(Language), language))
             throw new ArgumentException("I don't speak Klingon");
@@ -87,16 +89,15 @@ public class LanguageController : DebugMonoBehaviour
         LocalizationStrings = new Dictionary<string, string>();
         foreach (string fileName in new string[] { "General", CurrentLanguage.ToString() })
         {
-            foreach (XmlNode node in LoadLocalizationFile(fileName))
+            foreach (XmlNode node in await LoadLocalizationFile(fileName))
             {
                 if (node.InnerText != string.Empty)
                     // "name" is the attribute containing the localization string in the xml file
                     LocalizationStrings.Add(node.Attributes["name"].Value, node.InnerText);
             }
         }
-
-        // TODO how do I handle this bit ?
-        await UpdateAllTextControllers();
+        await UpdateAllTextControllersAsync();
+        IsLoading = false;
     }
 
     public void SetLanguage(int languageIndex)
@@ -106,8 +107,6 @@ public class LanguageController : DebugMonoBehaviour
 
     public string GetText(string localizationString)
     {
-        // TODO handle the case when the language is still loading
-
         if (!LocalizationStrings.ContainsKey(localizationString))
         {
             // If there is no translation available
@@ -117,6 +116,18 @@ public class LanguageController : DebugMonoBehaviour
         else
             //
             return LocalizationStrings[localizationString];
+    }
+
+    /// <summary>
+    /// Wait for the language to be fully loaded before trying to access it
+    /// </summary>
+    /// <param name="localizationString"></param>
+    /// <returns></returns>
+    public async Task<string> GetTextAsync(string localizationString)
+    {
+        while (IsLoading)
+            await Task.Delay(250);
+        return GetText(localizationString);
     }
 
     public string GetLocalizationString(string text)

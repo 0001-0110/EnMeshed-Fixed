@@ -44,6 +44,7 @@ public class LanguageSettings : DebugMonoBehaviour
     {
         languageTexts = languages.Values.ToList();
         LanguageSelectionDropDown.ClearOptions();
+        // This line might cause problems if the language is still loading, but this is very unlikely to ever happen
         List<string> options = ListService.ForEach(languageTexts, languageText => languageController.GetText(languageText));
         LanguageSelectionDropDown.AddOptions(options);
     }

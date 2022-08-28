@@ -3376,7 +3376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
+  LocalizationString: '{Menu_Button_Quit}'
 --- !u!1 &700079862
 GameObject:
   m_ObjectHideFlags: 0
@@ -8805,7 +8805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
+  LocalizationString: '{Menu_InputField_UserName}'
 --- !u!1 &1502409228
 GameObject:
   m_ObjectHideFlags: 0
@@ -12585,7 +12585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
+  LocalizationString: '{Menu_Button_Validate}'
 --- !u!1 &2040763878
 GameObject:
   m_ObjectHideFlags: 0

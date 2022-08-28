@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TMPro;
 
 /// <summary>
@@ -6,46 +7,47 @@ using TMPro;
 /// </summary>
 public class TextController : DebugMonoBehaviour
 {
+    // TODO better name needed
     // Regex that matches every localization in between curly braces
-    private static Regex regex = new Regex("{([^}]*)}");
+    private static readonly Regex regex = new Regex("{([^}]*)}");
 
     private LanguageController languageController;
     private TextMeshProUGUI text;
 
     public string LocalizationString;
 
-    public override void Awake()
+    public async override void Awake()
     {
         base.Awake();
         defaultDebugTag = DebugTag.Language;
 
         languageController = LanguageController.Instance;
         // Add this TextController to the list of controllers to be updated in case of a language change
-        languageController.textControllers.Add(this);
+        languageController.TextControllers.Add(this);
 
         text = GetComponent<TextMeshProUGUI>();
         if (text == null)
             LogWarning($"This TextController is missing a text to control", "This may be due to the text not being a TextMeshProUGUI");
 
-        UpdateText();
+        await UpdateText();
     }
 
     public void OnDestroy()
     {
         // To avoid referencing an object that doesn't exist anymore
-        languageController.textControllers.Remove(this);
+        languageController.TextControllers.Remove(this);
     }
 
-    public void UpdateText()
+    public async Task UpdateText()
     {
-        SetText(LocalizationString);
+        await SetText(LocalizationString);
     }
 
-    public void SetText(string localizationString)
+    public async Task SetText(string localizationString)
     {
         if (localizationString == string.Empty)
         {
-            LogWarning("WARNING: Language - Missing localization string", gameObject);
+            LogWarning("WARNING: Language - Invalid localization string", gameObject);
             return;
         }
 
@@ -57,8 +59,7 @@ public class TextController : DebugMonoBehaviour
             text.text = localizationString;
             Match match = regex.Match(localizationString);
             for (int i = 1; i < match.Groups.Count; i++)
-                text.text = regex.Replace(text.text, languageController.GetText(match.Groups[i].Value));
-            LogMessage(text.text);
+                text.text = regex.Replace(text.text, await languageController.GetTextAsync(match.Groups[i].Value));
         }
     }
 }
