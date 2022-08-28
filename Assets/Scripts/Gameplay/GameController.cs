@@ -23,7 +23,7 @@ public class GameController : DebugMonoBehaviour
             throw new Exception("Cannot play before connecting to a room\nI bet you forgot to switch back to the MenuScene before testing");
 
         base.Awake();
-        // This controller is handling a lot of different things, debugTags must be provided independently
+        defaultDebugTag = DebugTag.Gameplay;
     }
 
     public void Start()
@@ -34,10 +34,18 @@ public class GameController : DebugMonoBehaviour
     private void SpawnPlayer()
     {
         LocalPlayer = PhotonNetwork.Instantiate(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity).GetComponent<PlayerController>();
+        LogMessage("Spawned a new player", DebugTag.Entities);
     }
 
     private void SpawnEVA()
     {
+        // InstantiateRoomObject to avoid EVA leaving the game in case of the host disconnecting
         PhotonNetwork.InstantiateRoomObject(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity);
+    }
+
+    public void StartGame()
+    {
+        gameMultiplayerController.StartGame();
+        //UIController.
     }
 }

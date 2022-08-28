@@ -1,9 +1,12 @@
 using Photon.Pun;
+using Photon.Realtime;
 
 public class GameMultiplayerController : DebugMonoBehaviour
 {
     public static GameMultiplayerController Instance { get; private set; }
     public bool IsConnectedToRoom => PhotonNetwork.InRoom;
+    public Room CurrentRoom => PhotonNetwork.CurrentRoom;
+    public Player LocalPlayer => PhotonNetwork.LocalPlayer;
 
     public override void Awake()
     {
@@ -16,5 +19,16 @@ public class GameMultiplayerController : DebugMonoBehaviour
             LogWarning($"The previous {Instance} has been replaced with the new one");
         }
         Instance = this;
+    }
+
+    public void ToggleVisibility()
+    {
+        CurrentRoom.IsVisible = !CurrentRoom.IsVisible;
+    }
+
+    public void StartGame()
+    {
+        CurrentRoom.IsOpen = false;
+        CurrentRoom.IsVisible = false;
     }
 }

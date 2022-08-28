@@ -23,8 +23,8 @@ public class EntityController : DebugMonoBehaviour
 
         photonView = GetComponent<PhotonView>();
 
+        // Only the local player needs to activate his camera and audio listener
         camera = GetComponentInChildren<Camera>();
-        // only the local player needs to activate his camera and audio listener
         camera.enabled = photonView.IsMine;
         audioListener = GetComponentInChildren<AudioListener>();
         audioListener.enabled = photonView.IsMine;

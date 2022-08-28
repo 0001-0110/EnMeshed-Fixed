@@ -2,15 +2,21 @@ using Photon.Pun;
 
 public class PlayerController : EntityController
 {
+    private GameMultiplayerController gameMultiplayerController;
+
     private PlayerInputController inputController;
 
     public override void Awake()
     {
         base.Awake();
 
+        gameMultiplayerController = GameMultiplayerController.Instance;
+
         inputController = GetComponent<PlayerInputController>();
-        // The local player is the only one controlled by the inputs
-        //inputController.enabled = photonView.IsMine;
+
+        // TODO sync this
+        if (photonView.IsMine)
+            name = $"Player_{gameMultiplayerController.LocalPlayer.NickName}";
     }
 
     [PunRPC]

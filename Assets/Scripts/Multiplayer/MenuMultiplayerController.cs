@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -37,11 +38,11 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
 
-    ///<remarks>
-    /// TODO may not be the best solution in case of the scene being renamed
-    /// </remarks>
+    // TODO may not be the best solution in case of the scene being renamed
     [Tooltip("The name of the scene that is going to be loaded when joining a room")]
     public string GameSceneName;
+    [Tooltip("The name of the scene that is going to be loaded when leaving a room")]
+    public string MenuSceneName;
 
     public override void Awake()
     {
@@ -53,6 +54,8 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
             LogWarning($"The previous {Instance} has been replaced with the new one");
         }
         Instance = this;
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     /// <summary>
@@ -78,10 +81,16 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         IsConnectedToRoom = true;
-        PhotonNetwork.LoadLevel(GameSceneName);
+        // The master client is the only one calling LoadLevel, other players are using "PhotonNetwork.AutomaticallySyncScene = true;" to change scene
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel(GameSceneName);
     }
 
-    public override void OnLeftRoom() => IsConnectedToRoom = false;
+    public override void OnLeftRoom()
+    {
+        IsConnectedToRoom = false;
+        SceneManager.LoadScene(MenuSceneName);
+    }
 
     #endregion
 
