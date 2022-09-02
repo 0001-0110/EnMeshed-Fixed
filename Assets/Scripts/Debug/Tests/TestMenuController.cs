@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TestMenuController : DebugMonoBehaviour
 {
-    private MenuMultiplayerController menuMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     // TODO implement offline mode for testing
     [Tooltip("Choose wether to laucnh the game as online or offline")]
@@ -19,12 +19,12 @@ public class TestMenuController : DebugMonoBehaviour
         base.Awake();
         defaultDebugTag = DebugTag.Multiplayer;
 
-        menuMultiplayerController = MenuMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
 
         if (UserName == string.Empty)
-            menuMultiplayerController.LocalPlayer.NickName = $"TEST_{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
+            MultiplayerController.LocalPlayer.NickName = $"TEST_{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
         else
-            menuMultiplayerController.LocalPlayer.NickName = UserName;
+            MultiplayerController.LocalPlayer.NickName = UserName;
 
         await LaunchGame(Online);
     }
@@ -33,8 +33,8 @@ public class TestMenuController : DebugMonoBehaviour
     {
         if (online)
         {
-            if (await menuMultiplayerController.ConnectToMaster())
-                if (await menuMultiplayerController.JoinRandomOrCreateRoom())
+            if (await MultiplayerController.ConnectToMaster())
+                if (await MultiplayerController.JoinRandomOrCreateRoom())
                     LogMessage("Succesfully created or joined an online room");
                 else
                     LogError("Could not connect to room");
@@ -44,8 +44,8 @@ public class TestMenuController : DebugMonoBehaviour
         else
         {
             // Offline
-            if (await menuMultiplayerController.StartOfflineMode())
-                if (await menuMultiplayerController.CreateRoom("SoloRoom"))
+            if (await MultiplayerController.StartOfflineMode())
+                if (await MultiplayerController.CreateRoom("SoloRoom"))
                     LogMessage("Succesfully created an offline room");
                 else
                     LogError("Could not create room");

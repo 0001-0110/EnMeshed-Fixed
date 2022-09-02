@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 1953297800}
   - component: {fileID: 1953297799}
   m_Layer: 0
-  m_Name: MenuMultiplayerController
+  m_Name: MultiplayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameSceneName: GameScene
+  MenuSceneName: MenuScene
 --- !u!4 &1953297800
 Transform:
   m_ObjectHideFlags: 0

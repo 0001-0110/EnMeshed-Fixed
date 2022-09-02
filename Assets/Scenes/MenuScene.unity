@@ -9317,13 +9317,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugDebug: 1
-  debugUI: 1
-  debugLanguage: 1
+  debugUI: 0
+  debugLanguage: 0
   debugMultiplayer: 1
   debugGameplay: 1
   debugLevel: 1
   debugInventory: 1
-  debugEntities: 1
+  debugEntities: 0
   debugAI: 1
 --- !u!1 &1594044850
 GameObject:
@@ -12006,7 +12006,7 @@ GameObject:
   - component: {fileID: 1926288098}
   - component: {fileID: 1926288097}
   m_Layer: 0
-  m_Name: MenuMultiplayerController
+  m_Name: MultiplayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12025,6 +12025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameSceneName: GameScene
+  MenuSceneName: MenuScene
 --- !u!4 &1926288098
 Transform:
   m_ObjectHideFlags: 0

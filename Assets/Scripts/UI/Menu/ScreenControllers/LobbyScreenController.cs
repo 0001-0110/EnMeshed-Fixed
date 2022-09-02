@@ -3,7 +3,7 @@ using TMPro;
 
 public class LobbyScreenController : GameLoadingScreenController
 {
-    private MenuMultiplayerController menuMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     public TextMeshProUGUI playerInLobbyText;
     public TMP_InputField roomNameInput;
@@ -14,7 +14,7 @@ public class LobbyScreenController : GameLoadingScreenController
     {
         base.Awake();
 
-        menuMultiplayerController = MenuMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
     }
 
     public void OnEnable()
@@ -27,23 +27,23 @@ public class LobbyScreenController : GameLoadingScreenController
     {
         while (this != null && gameObject.activeInHierarchy)
         {
-            playerInLobbyText.text = menuMultiplayerController.PlayerCountInLobby.ToString();
+            playerInLobbyText.text = MultiplayerController.PlayerCountInLobby.ToString();
             await Task.Delay(RefreshDelay);
         }
     }
 
     public async void CreateRoom()
     {
-        await LoadRoom(menuMultiplayerController.CreateRoom(menuMultiplayerController.CreateRoomName()));
+        await LoadRoom(MultiplayerController.CreateRoom(MultiplayerController.CreateRoomName()));
     }
 
     public async void JoinRandomOrCreate()
     {
-        await LoadRoom(menuMultiplayerController.JoinRandomOrCreateRoom());
+        await LoadRoom(MultiplayerController.JoinRandomOrCreateRoom());
     }
 
     public async void JoinRoom()
     {
-        await LoadRoom(menuMultiplayerController.JoinRoom(roomNameInput.text.ToUpper()));
+        await LoadRoom(MultiplayerController.JoinRoom(roomNameInput.text.ToUpper()));
     }
 }

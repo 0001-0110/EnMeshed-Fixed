@@ -2,20 +2,20 @@ public class SoloLoadingScreenController : GameLoadingScreenController
 {
     private const string SoloRoomName = "SoloRoom";
 
-    private MenuMultiplayerController menuMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     public override void Awake()
     {
         base.Awake();
 
-        menuMultiplayerController = MenuMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
     }
 
     public async void OnEnable()
     {
         // could probably do better
-        if (await menuMultiplayerController.StartOfflineMode())
-            await LoadRoom(menuMultiplayerController.CreateRoom(SoloRoomName));
+        if (await MultiplayerController.StartOfflineMode())
+            await LoadRoom(MultiplayerController.CreateRoom(SoloRoomName));
         else
             SetMode(ScreenMode.FailedConnection);
     }

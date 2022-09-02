@@ -7,28 +7,29 @@ public class GameController : DebugMonoBehaviour
     public GameObject PlayerPrefab;
     public PlayerController LocalPlayer { get; private set; }
 
-    private GameMultiplayerController gameMultiplayerController;
+    private MultiplayerController MultiplayerController;
     private ItemController itemController;
     private MapController mapController;
     private UIController UIController;
 
     public override void Awake()
     {
-        gameMultiplayerController = GameMultiplayerController.Instance;
-        itemController = ItemController.Instance;
-        mapController = MapController.Instance;
-        UIController = UIController.Instance;
-
-        if (!gameMultiplayerController.IsConnectedToRoom)
-            throw new Exception("Cannot play before connecting to a room\nI bet you forgot to switch back to the MenuScene before testing");
+        if (MultiplayerController.Instance == null)
+            throw new Exception("FATAL ERROR: I bet you forgot to switch back to the MenuScene before testing");
 
         base.Awake();
         defaultDebugTag = DebugTag.Gameplay;
+
+        MultiplayerController = MultiplayerController.Instance;
+        itemController = ItemController.Instance;
+        mapController = MapController.Instance;
+        UIController = UIController.Instance;
     }
 
-    public void Start()
+    public async void Start()
     {
         SpawnPlayer();
+        await System.Threading.Tasks.Task.Delay(5000);
     }
 
     private void SpawnPlayer()
@@ -45,7 +46,7 @@ public class GameController : DebugMonoBehaviour
 
     public void StartGame()
     {
-        gameMultiplayerController.StartGame();
+        MultiplayerController.StartGame();
         //UIController.
     }
 }

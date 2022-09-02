@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MenuLoadingScreenController : ScreenController
 {
-    private MenuMultiplayerController menuMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     public GameObject UserNameScreen;
 
@@ -10,15 +10,15 @@ public class MenuLoadingScreenController : ScreenController
     {
         base.Awake();
 
-        menuMultiplayerController = MenuMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
     }
 
     public async void OnEnable()
     {
         // If not connected to the master server, attempt the connection
         // No particular reason for this check, but we never know
-        if (!menuMultiplayerController.IsConnectedToMaster)
-            await menuMultiplayerController.ConnectToMaster();
+        if (!MultiplayerController.IsConnectedToMaster)
+            await MultiplayerController.ConnectToMaster();
         // Change screen, don't care if the connection was a success or not
         // since the main menu is the one handling the case where we are not connected
         // But we need to make sure the app is still running before switching screens

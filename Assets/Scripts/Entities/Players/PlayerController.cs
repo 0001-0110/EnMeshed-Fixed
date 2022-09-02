@@ -2,7 +2,7 @@ using Photon.Pun;
 
 public class PlayerController : EntityController
 {
-    private GameMultiplayerController gameMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     private PlayerInputController inputController;
 
@@ -10,13 +10,16 @@ public class PlayerController : EntityController
     {
         base.Awake();
 
-        gameMultiplayerController = GameMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
 
         inputController = GetComponent<PlayerInputController>();
 
         // TODO sync this
         if (photonView.IsMine)
-            name = $"Player_{gameMultiplayerController.LocalPlayer.NickName}";
+        {
+            name = $"Player_{MultiplayerController.LocalPlayer.NickName}";
+            // TODO set user name
+        }
     }
 
     [PunRPC]

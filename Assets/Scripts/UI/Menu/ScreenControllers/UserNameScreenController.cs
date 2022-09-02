@@ -7,7 +7,7 @@ public class UserNameScreenController : ScreenController
 {
     private const string UserNamePreferenceKey = "UserName";
 
-    private MenuMultiplayerController menuMultiplayerController;
+    private MultiplayerController MultiplayerController;
 
     public TMP_InputField UserNameInput;
     public Button ValidateUserNameButton;
@@ -18,7 +18,7 @@ public class UserNameScreenController : ScreenController
     public override void Awake()
     {
         base.Awake();
-        menuMultiplayerController = MenuMultiplayerController.Instance;
+        MultiplayerController = MultiplayerController.Instance;
         if (PlayerPrefs.HasKey(UserNamePreferenceKey))
             UserNameInput.text = PlayerPrefs.GetString(UserNamePreferenceKey);
     }
@@ -45,7 +45,7 @@ public class UserNameScreenController : ScreenController
         else
         {
             PlayerPrefs.SetString(UserNamePreferenceKey, UserNameInput.text);
-            menuMultiplayerController.LocalPlayer.NickName = UserNameInput.text;
+            MultiplayerController.LocalPlayer.NickName = UserNameInput.text;
             OpenScreen(screen);
         }
     }

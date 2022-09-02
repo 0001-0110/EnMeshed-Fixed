@@ -32,9 +32,10 @@ public class DebugController : MonoBehaviour
     {
         if (Instance != null)
         {
-            // Using unity debug directly because activeDebugTag is not yet ready
-            Debug.LogWarning($"WARNING: DEBUG - There is multiple {this}s, but it should be only one");
-            Debug.LogWarning($"WARNING: DEBUG - The previous {this} has been replaced with a new one");
+            // If we already have a debug controller, we need to destroy the new one
+            // Duplicates are going to happen every time we go back to a scene where a multiplayer controller is instantiated
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
 

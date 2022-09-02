@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
+public class MultiplayerController : DebugMonoBehaviourPunCallbacks
 {
-    public static MenuMultiplayerController Instance { get; private set; }
+    public static MultiplayerController Instance { get; private set; }
 
     /// <summary>
     /// Delay before time out (ms)
@@ -34,7 +34,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     public int PlayerCountInRooms => PhotonNetwork.CountOfPlayersInRooms;
     public int PlayerCountInLobby => PhotonNetwork.CountOfPlayersOnMaster;
     public List<RoomInfo> RoomInfos { get; private set; }
-
+    public Room CurrentRoom => PhotonNetwork.CurrentRoom;
     public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
 
@@ -50,10 +50,13 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
 
         if (Instance != null)
         {
-            LogWarning($"There is multiple {this}s, but it should be only one");
-            LogWarning($"The previous {Instance} has been replaced with the new one");
+            // If we already have a multiplayer controller, we need to destroy the new one
+            // Duplicates are going to happen every time we go back to a scene where a multiplayer controller is instantiated
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -61,6 +64,7 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     /// <summary>
     /// TODO doesn't work
     /// There is a bug when leaving the app while in room
+    /// Not sure this is even useful
     /// </summary>
     public void OnApplicationQuit()
     {
@@ -98,6 +102,8 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
     {
         throw new System.NotImplementedException();
     }
+
+    #region FINDANAME
 
     public async Task<bool> ConnectToMaster(int timeOut = TimeOutDelay, int tick = defaultTick)
     {
@@ -207,4 +213,36 @@ public class MenuMultiplayerController : DebugMonoBehaviourPunCallbacks
         LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
         return IsConnectedToRoom;
     }
+
+    // TODO Leave room
+    public async Task<bool> LeaveRoom(int timeOut = TimeOutDelay, int tick = defaultTick)
+    {
+        LogMessage($"Before deconnection: IsConnectedToRoom is {IsConnectedToRoom}");
+        PhotonNetwork.LeaveRoom();
+        // Wait for the connection to be terminated or the time out to be reached
+        while (timeOut > 0 && IsConnectedToRoom)
+        {
+            await Task.Delay(tick);
+            timeOut -= tick;
+        }
+        LogMessage($"IsConnectedToRoom is {IsConnectedToRoom}");
+        return !IsConnectedToRoom;
+    }
+
+    #endregion
+
+    #region FINDANAME
+
+    public void ToggleVisibility()
+    {
+        CurrentRoom.IsVisible = !CurrentRoom.IsVisible;
+    }
+
+    public void StartGame()
+    {
+        CurrentRoom.IsOpen = false;
+        CurrentRoom.IsVisible = false;
+    }
+
+    #endregion
 }

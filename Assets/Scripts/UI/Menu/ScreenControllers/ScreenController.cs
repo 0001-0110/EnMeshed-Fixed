@@ -32,9 +32,10 @@ public abstract class ScreenController : DebugMonoBehaviour
         LogMessage($"ActiveScreen is {ActiveScreen}");
     }
 
-    public void Quit()
+    public void QuitGame()
     {
         // TODO safely quit multiplayer ?
+
 #if UNITY_EDITOR
         // Application.Quit works only when in a build
         UnityEditor.EditorApplication.isPlaying = false;
