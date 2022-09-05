@@ -4,7 +4,8 @@ public class MenuLoadingScreenController : ScreenController
 {
     private MultiplayerController MultiplayerController;
 
-    public GameObject UserNameScreen;
+    [SerializeField]
+    private GameObject userNameScreen;
 
     public override void Awake()
     {
@@ -23,6 +24,6 @@ public class MenuLoadingScreenController : ScreenController
         // since the main menu is the one handling the case where we are not connected
         // But we need to make sure the app is still running before switching screens
         if (this != null)
-            OpenScreen(UserNameScreen);
+            OpenScreen(userNameScreen);
     }
 }

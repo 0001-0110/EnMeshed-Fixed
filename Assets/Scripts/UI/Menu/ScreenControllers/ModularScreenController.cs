@@ -17,10 +17,12 @@ public abstract class ModularScreenController : ScreenController
         public GameObject[] gameObjects;
     }
 
-    public ScreenMode activeScreenMode;
+    [SerializeField]
+    private ScreenMode activeScreenMode;
     // NonReordable for diplay
+    [SerializeField]
     [NonReorderable]
-    public ScreenConfiguration[] screenModes;
+    private ScreenConfiguration[] screenModes;
 
     protected void SetMode(ScreenMode screenMode)
     {

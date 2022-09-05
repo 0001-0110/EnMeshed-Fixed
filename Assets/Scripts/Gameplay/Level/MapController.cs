@@ -4,8 +4,10 @@ public class MapController : DebugMonoBehaviour
 {
     public static MapController Instance { get; private set; }
 
-    public RoomController PlayerSpawnRoom;
-    public RoomController EVASpawnRoom;
+    [SerializeField]
+    private RoomController playerSpawnRoom;
+    [SerializeField]
+    private RoomController EVASpawnRoom;
     
 
     public override void Awake()
@@ -24,7 +26,7 @@ public class MapController : DebugMonoBehaviour
     public Vector2 GetPlayerSpawnPosition()
     {
         // TODO
-        return PlayerSpawnRoom.GetComponent<RectTransform>().anchoredPosition;
+        return playerSpawnRoom.GetComponent<RectTransform>().anchoredPosition;
     }
 
     public Vector2 GetEVASpawnPosition()

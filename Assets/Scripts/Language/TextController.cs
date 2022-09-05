@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UnityEngine;
 using TMPro;
 
 /// <summary>
@@ -14,7 +15,8 @@ public class TextController : DebugMonoBehaviour
     private LanguageController languageController;
     private TextMeshProUGUI text;
 
-    public string LocalizationString;
+    [SerializeField]
+    public string LocalizationString { get; private set; }
 
     public async override void Awake()
     {

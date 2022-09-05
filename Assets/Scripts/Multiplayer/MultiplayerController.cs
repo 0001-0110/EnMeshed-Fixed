@@ -39,10 +39,12 @@ public class MultiplayerController : DebugMonoBehaviourPunCallbacks
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
 
     // TODO may not be the best solution in case of the scene being renamed
+    [SerializeField]
     [Tooltip("The name of the scene that is going to be loaded when joining a room")]
-    public string GameSceneName;
+    private string gameSceneName;
+    [SerializeField]
     [Tooltip("The name of the scene that is going to be loaded when leaving a room")]
-    public string MenuSceneName;
+    public string menuSceneName;
 
     public override void Awake()
     {
@@ -87,13 +89,13 @@ public class MultiplayerController : DebugMonoBehaviourPunCallbacks
         IsConnectedToRoom = true;
         // The master client is the only one calling LoadLevel, other players are using "PhotonNetwork.AutomaticallySyncScene = true;" to change scene
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel(GameSceneName);
+            PhotonNetwork.LoadLevel(gameSceneName);
     }
 
     public override void OnLeftRoom()
     {
         IsConnectedToRoom = false;
-        SceneManager.LoadScene(MenuSceneName);
+        SceneManager.LoadScene(menuSceneName);
     }
 
     #endregion
@@ -233,9 +235,13 @@ public class MultiplayerController : DebugMonoBehaviourPunCallbacks
 
     #region FINDANAME
 
-    public void ToggleVisibility()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>The new visibilty of the room</returns>
+    public bool ToggleVisibility()
     {
-        CurrentRoom.IsVisible = !CurrentRoom.IsVisible;
+        return CurrentRoom.IsVisible = !CurrentRoom.IsVisible;
     }
 
     public void StartGame()

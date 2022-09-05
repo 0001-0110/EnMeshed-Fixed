@@ -11,10 +11,11 @@ public class EntityController : DebugMonoBehaviour
 
     protected SpriteRenderer spriteRenderer;
 
-    [Tooltip("TODO")]
-    public int MaxVelocity;
+    [SerializeField]
+    private int maxVelocity;
 
-    public int InventorySize;
+    [SerializeField]
+    protected int inventorySize;
     protected Inventory inventory;
 
     public override void Awake()
@@ -33,7 +34,7 @@ public class EntityController : DebugMonoBehaviour
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        inventory = new Inventory(InventorySize);
+        inventory = new Inventory(inventorySize);
     }
 
     #region MOUVEMENTS
@@ -46,7 +47,7 @@ public class EntityController : DebugMonoBehaviour
     public void SetVelocity(Vector2 velocity)
     {
         // The speed must be normalized to avoid diagonal mouvements to be faster than straight ones
-        rigidbody.velocity = velocity.normalized * MaxVelocity;
+        rigidbody.velocity = velocity.normalized * maxVelocity;
         // TODO Flip the sprite around the x axis to look forward
         /*float xScale = spriteRenderer.transform.localScale.x * velocity.x > 0 ? 1 : -1;
         spriteRenderer.transform.localScale = new Vector3(xScale, spriteRenderer.transform.localScale.y);*/

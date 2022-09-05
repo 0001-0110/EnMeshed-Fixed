@@ -4,7 +4,10 @@ using Photon.Pun;
 
 public class GameController : DebugMonoBehaviour
 {
-    public GameObject PlayerPrefab;
+    [SerializeField]
+    private GameObject playerPrefab;
+    [SerializeField]
+    private GameObject EVAPrefab;
     public PlayerController LocalPlayer { get; private set; }
 
     private MultiplayerController MultiplayerController;
@@ -34,19 +37,21 @@ public class GameController : DebugMonoBehaviour
 
     private void SpawnPlayer()
     {
-        LocalPlayer = PhotonNetwork.Instantiate(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity).GetComponent<PlayerController>();
+        LocalPlayer = PhotonNetwork.Instantiate(playerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity).GetComponent<PlayerController>();
         LogMessage("Spawned a new player", DebugTag.Entities);
     }
 
     private void SpawnEVA()
     {
         // InstantiateRoomObject to avoid EVA leaving the game in case of the host disconnecting
-        PhotonNetwork.InstantiateRoomObject(PlayerPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity);
+        PhotonNetwork.InstantiateRoomObject(EVAPrefab.name, mapController.GetPlayerSpawnPosition(), Quaternion.identity);
     }
 
     public void StartGame()
     {
         MultiplayerController.StartGame();
         //UIController.
+        // TODO Open the cockpit door
+        //spawnDoor.SetDoorState(true);
     }
 }

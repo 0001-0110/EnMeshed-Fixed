@@ -3,8 +3,10 @@ using UnityEngine.UI;
 
 public class SettingsScreenController : ScreenController
 {
-    public Button[] Buttons;
-    public GameObject[] settingsPanels;
+    [SerializeField]
+    private Button[] buttons;
+    [SerializeField]
+    private GameObject[] settingsPanels;
     private int activeSettingsPanelIndex;
 
     public override void Awake()
@@ -22,12 +24,12 @@ public class SettingsScreenController : ScreenController
     public void ShowSettingsPanel(int index)
     {
         //
-        Buttons[activeSettingsPanelIndex].interactable = true;
+        buttons[activeSettingsPanelIndex].interactable = true;
         settingsPanels[activeSettingsPanelIndex].gameObject.SetActive(false);
         //
         activeSettingsPanelIndex = index;
         //
-        Buttons[index].interactable = false;
+        buttons[index].interactable = false;
         settingsPanels[index].gameObject.SetActive(true);
 
     }

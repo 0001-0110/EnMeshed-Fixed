@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIController : DebugMonoBehaviour
 {
@@ -6,9 +8,16 @@ public class UIController : DebugMonoBehaviour
 
     private MultiplayerController multiplayerController;
 
-    private GameObject EscapeMenuObject;
+    [SerializeField]
+    private TextController roomNameTextController;
+    [SerializeField]
+    private GameObject visibilityButton;
+    private Image visibilityButtonImage;
+    private TextController visibilityButtonTextController;
+    [SerializeField]
+    private GameObject escapeMenuObject;
 
-    public override void Awake()
+    public async override void Awake()
     {
         base.Awake();
         defaultDebugTag = DebugTag.UI;
@@ -21,6 +30,16 @@ public class UIController : DebugMonoBehaviour
         Instance = this;
 
         multiplayerController = MultiplayerController.Instance;
+
+        visibilityButtonImage = visibilityButton.GetComponent<Image>();
+        visibilityButtonTextController = visibilityButton.GetComponentInChildren<TextController>();
+        // TODO missing localization string
+        await roomNameTextController.SetText($"{{}}: {multiplayerController.CurrentRoom.Name}");
+    }
+
+    public void ToggleVisibilty()
+    {
+        multiplayerController.ToggleVisibility();
     }
 
     public async void LeaveRoom()

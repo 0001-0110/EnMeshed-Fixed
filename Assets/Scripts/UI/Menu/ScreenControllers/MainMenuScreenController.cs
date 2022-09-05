@@ -6,7 +6,8 @@ public class MainMenuScreenController : ScreenController
 {
     private MultiplayerController MultiplayerController;
 
-    public Button MultiplayerButton;
+    [SerializeField]
+    private Button multiplayerButton;
 
     public override void Awake()
     {
@@ -23,7 +24,7 @@ public class MainMenuScreenController : ScreenController
         // DONE possible problems may arise if the connection is lost while in the main menu, additional checks are required
         if (!MultiplayerController.IsConnectedToMaster)
         {
-            MultiplayerButton.interactable = false;
+            multiplayerButton.interactable = false;
             RetryConnection();
         }
     }
@@ -35,7 +36,7 @@ public class MainMenuScreenController : ScreenController
         while (this != null && gameObject.activeInHierarchy && !MultiplayerController.IsConnectedToMaster)
         {
             LogMessage("Retrying connection to master server", DebugTag.Multiplayer);
-            MultiplayerButton.interactable = await MultiplayerController.ConnectToMaster();
+            multiplayerButton.interactable = await MultiplayerController.ConnectToMaster();
             await Task.Delay(refreshDelay);
         }
     }
@@ -44,7 +45,7 @@ public class MainMenuScreenController : ScreenController
     {
         if (!MultiplayerController.IsConnectedToMaster)
         {
-            MultiplayerButton.interactable = false;
+            multiplayerButton.interactable = false;
             RetryConnection();
         }
         else

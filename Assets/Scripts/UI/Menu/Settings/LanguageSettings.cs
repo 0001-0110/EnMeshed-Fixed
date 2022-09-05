@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 using TMPro;
 
 using Services;
@@ -7,7 +8,8 @@ using Services;
 public class LanguageSettings : DebugMonoBehaviour
 {
     private LanguageController languageController;
-    public TMP_Dropdown LanguageSelectionDropDown;
+    [SerializeField]
+    private TMP_Dropdown languageSelectionDropDown;
 
     private Dictionary<Language, string> languages = new Dictionary<Language, string>()
     {
@@ -43,20 +45,20 @@ public class LanguageSettings : DebugMonoBehaviour
     private void InitLanguageSelection()
     {
         languageTexts = languages.Values.ToList();
-        LanguageSelectionDropDown.ClearOptions();
+        languageSelectionDropDown.ClearOptions();
         // This line might cause problems if the language is still loading, but this is very unlikely to ever happen
         List<string> options = ListService.ForEach(languageTexts, languageText => languageController.GetText(languageText));
-        LanguageSelectionDropDown.AddOptions(options);
+        languageSelectionDropDown.AddOptions(options);
     }
 
     private void DisplayLanguageSelection()
     {
-        LanguageSelectionDropDown.value = languageTexts.IndexOf(languages[languageController.CurrentLanguage]);
+        languageSelectionDropDown.value = languageTexts.IndexOf(languages[languageController.CurrentLanguage]);
     }
 
     public void UpdateLanguage()
     {
         // TODO need some comments, do it or you'll regret it later
-        languageController.SetLanguage(languages.First(pair => pair.Value == languageTexts[LanguageSelectionDropDown.value]).Key);
+        languageController.SetLanguage(languages.First(pair => pair.Value == languageTexts[languageSelectionDropDown.value]).Key);
     }
 }

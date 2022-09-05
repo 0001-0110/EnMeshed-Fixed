@@ -1,14 +1,18 @@
 using System.Threading.Tasks;
+using UnityEngine;
 using TMPro;
 
 public class LobbyScreenController : GameLoadingScreenController
 {
     private MultiplayerController MultiplayerController;
 
-    public TextMeshProUGUI playerInLobbyText;
-    public TMP_InputField roomNameInput;
+    [SerializeField]
+    private TextMeshProUGUI playerInLobbyText;
+    [SerializeField]
+    private TMP_InputField roomNameInput;
 
-    public int RefreshDelay;
+    [SerializeField]
+    private int refreshDelay;
 
     public override void Awake()
     {
@@ -28,7 +32,7 @@ public class LobbyScreenController : GameLoadingScreenController
         while (this != null && gameObject.activeInHierarchy)
         {
             playerInLobbyText.text = MultiplayerController.PlayerCountInLobby.ToString();
-            await Task.Delay(RefreshDelay);
+            await Task.Delay(refreshDelay);
         }
     }
 

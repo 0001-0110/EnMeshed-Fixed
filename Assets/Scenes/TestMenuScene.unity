@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fe667b603fbc04897403c1fcda792d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Online: 1
-  UserName: 
+  online: 1
+  userName: 
 --- !u!4 &1697971253
 Transform:
   m_ObjectHideFlags: 0
@@ -295,8 +295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ac330b7ef0a8d47a18d118983c9334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSceneName: GameScene
-  MenuSceneName: MenuScene
+  gameSceneName: GameScene
+  menuSceneName: MenuScene
 --- !u!4 &1953297800
 Transform:
   m_ObjectHideFlags: 0

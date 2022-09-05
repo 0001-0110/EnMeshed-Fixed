@@ -7,12 +7,13 @@ public class TestMenuController : DebugMonoBehaviour
 {
     private MultiplayerController MultiplayerController;
 
-    // TODO implement offline mode for testing
+    [SerializeField]
     [Tooltip("Choose wether to laucnh the game as online or offline")]
-    public bool Online;
+    private bool online;
 
+    [SerializeField]
     [Tooltip("Use this to force the user name, leave empty for generated user name")]
-    public string UserName;
+    private string userName;
 
     public override async void Awake()
     {
@@ -21,12 +22,12 @@ public class TestMenuController : DebugMonoBehaviour
 
         MultiplayerController = MultiplayerController.Instance;
 
-        if (UserName == string.Empty)
+        if (userName == string.Empty)
             MultiplayerController.LocalPlayer.NickName = $"TEST_{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
         else
-            MultiplayerController.LocalPlayer.NickName = UserName;
+            MultiplayerController.LocalPlayer.NickName = userName;
 
-        await LaunchGame(Online);
+        await LaunchGame(online);
     }
 
     private async Task LaunchGame(bool online)

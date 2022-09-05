@@ -530,7 +530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!1 &110383091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,7 +1336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &251909695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1689,7 +1687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &286709262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,7 +2006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &411521685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,7 +2154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &432501226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3227,7 +3222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!1 &689757521
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: '{Menu_Button_Quit}'
 --- !u!1 &700079862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,7 +3556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &714867165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3892,7 +3884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &722643430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4055,7 +4046,6 @@ MonoBehaviour:
     gameObjects:
     - {fileID: 411521682}
     - {fileID: 788295464}
-  GameSceneName: GameScene
 --- !u!1 &750483322
 GameObject:
   m_ObjectHideFlags: 0
@@ -4980,7 +4970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884d3169ec5b0742afdc7bdd8744a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Buttons:
+  buttons:
   - {fileID: 1757821830}
   - {fileID: 1248878285}
   - {fileID: 1219773385}
@@ -5403,7 +5393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &967694129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5552,7 +5541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &979044811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5701,7 +5689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: '{Menu_Text_Loading}'
 --- !u!114 &1010844424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6289,7 +6276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1158048094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6475,7 +6461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e7a689e65d844aab4dd4b110acf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LanguageSelectionDropDown: {fileID: 1863595418}
+  languageSelectionDropDown: {fileID: 0}
 --- !u!1 &1216745539
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,7 +6493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1216745541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7721,7 +7706,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!1 &1359698377
 GameObject:
   m_ObjectHideFlags: 0
@@ -7870,7 +7854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!1 &1360077735
 GameObject:
   m_ObjectHideFlags: 0
@@ -8492,7 +8475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25428c8ee438664882e2704725f48a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserNameScreen: {fileID: 1784462842}
+  userNameScreen: {fileID: 1784462842}
 --- !u!1 &1481250852
 GameObject:
   m_ObjectHideFlags: 0
@@ -8805,7 +8788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: '{Menu_InputField_UserName}'
 --- !u!1 &1502409228
 GameObject:
   m_ObjectHideFlags: 0
@@ -8857,7 +8839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1502409231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9376,7 +9357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1594044853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10035,7 +10015,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!1 &1689048097
 GameObject:
   m_ObjectHideFlags: 0
@@ -10215,7 +10194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1726497145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10373,10 +10351,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeScreenMode: 0
   screenModes: []
-  GameSceneName: GameScene
   playerInLobbyText: {fileID: 1461607626}
   roomNameInput: {fileID: 1810527457}
-  RefreshDelay: 5000
+  refreshDelay: 5000
 --- !u!1 &1737451491
 GameObject:
   m_ObjectHideFlags: 0
@@ -10765,9 +10742,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81d1811c02ccde479d2bf22f6c8f2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserNameInput: {fileID: 1301551424}
-  ValidateUserNameButton: {fileID: 376669780}
-  InvalidLocalizationString: 
+  userNameInput: {fileID: 1301551424}
+  validateUserNameButton: {fileID: 376669780}
+  invalidLocalizationString: '{Menu_Button_InvalidInput}'
 --- !u!1 &1797176092
 GameObject:
   m_ObjectHideFlags: 0
@@ -11416,7 +11393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1844234983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11821,7 +11797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: 
 --- !u!114 &1890717937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12024,8 +11999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ac330b7ef0a8d47a18d118983c9334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSceneName: GameScene
-  MenuSceneName: MenuScene
+  gameSceneName: GameScene
+  menuSceneName: MenuScene
 --- !u!4 &1926288098
 Transform:
   m_ObjectHideFlags: 0
@@ -12586,7 +12561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9f129a3f326af4ebbac8e828c49eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationString: '{Menu_Button_Validate}'
 --- !u!1 &2040763878
 GameObject:
   m_ObjectHideFlags: 0
@@ -12940,7 +12914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0d11d703a12754c8f89b1b52d46d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MultiplayerButton: {fileID: 151820518}
+  multiplayerButton: {fileID: 151820518}
 --- !u!1 &2136552782
 GameObject:
   m_ObjectHideFlags: 0
