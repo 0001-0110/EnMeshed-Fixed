@@ -36,57 +36,57 @@ public abstract class DebugMonoBehaviour : MonoBehaviour
 
     protected void LogWarning(string message, DebugTag debugTag, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(debugTag))
-            Debug.LogWarning($"Warning: {debugTag} - {message}");
+            Debug.LogWarning($"Warning: {debugTag} - {message}{potentialFixesString}");
     }
 
     protected void LogWarning(string message, GameObject context, DebugTag debugTag, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(debugTag))
-            Debug.LogWarning($"Warning: {debugTag} - {message}", context);
+            Debug.LogWarning($"Warning: {debugTag} - {message}{potentialFixesString}", context);
     }
 
     protected void LogWarning(string message, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(defaultDebugTag))
-            Debug.LogWarning($"Warning: {defaultDebugTag} - {message}");
+            Debug.LogWarning($"Warning: {defaultDebugTag} - {message}{potentialFixesString}");
     }
 
     protected void LogWarning(string message, GameObject context, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(defaultDebugTag))
-            Debug.LogWarning($"Warning: {defaultDebugTag} - {message}", context);
+            Debug.LogWarning($"Warning: {defaultDebugTag} - {message}{potentialFixesString}", context);
     }
 
     protected void LogError(string message, DebugTag debugTag, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(debugTag))
-            Debug.LogError($"Error: {debugTag} - {message}");
+            Debug.LogError($"Error: {debugTag} - {message}{potentialFixesString}");
     }
 
     protected void LogError(string message, GameObject context, DebugTag debugTag, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(debugTag))
-            Debug.LogError($"Error: {debugTag} - {message}", context);
+            Debug.LogError($"Error: {debugTag} - {message}{potentialFixesString}", context);
     }
 
     protected void LogError(string message, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(defaultDebugTag))
-            Debug.LogError($"Error: {defaultDebugTag} - {message}");
+            Debug.LogError($"Error: {defaultDebugTag} - {message}{potentialFixesString}");
     }
 
     protected void LogError(string message, GameObject context, params string[] potentialFixes)
     {
-        // TODO potential fixes
+        string potentialFixesString = potentialFixes.Length == 0 ? "" : $"\n- {string.Join("\n- ", potentialFixes)}";
         if (debugController.IsDebugTagActive(defaultDebugTag))
-            Debug.LogError($"Error: {defaultDebugTag} - {message}", context);
+            Debug.LogError($"Error: {defaultDebugTag} - {message}{potentialFixesString}", context);
     }
 }
