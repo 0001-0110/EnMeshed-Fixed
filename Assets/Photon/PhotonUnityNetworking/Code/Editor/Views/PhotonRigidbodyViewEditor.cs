@@ -15,36 +15,36 @@ namespace Photon.Pun
 	using UnityEngine;
 
 
-    [CustomEditor(typeof (PhotonRigidbodyView))]
-    public class PhotonRigidbodyViewEditor : MonoBehaviourPunEditor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
+	[CustomEditor(typeof(PhotonRigidbodyView))]
+	public class PhotonRigidbodyViewEditor : MonoBehaviourPunEditor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
 
-            if (Application.isPlaying)
-            {
-                EditorGUILayout.HelpBox("Editing is disabled in play mode.", MessageType.Info);
-                return;
-            }
+			if (Application.isPlaying)
+			{
+				EditorGUILayout.HelpBox("Editing is disabled in play mode.", MessageType.Info);
+				return;
+			}
 
-            PhotonRigidbodyView view = (PhotonRigidbodyView)target;
+			PhotonRigidbodyView view = (PhotonRigidbodyView)target;
 
-            view.m_TeleportEnabled = PhotonGUI.ContainerHeaderToggle("Enable teleport for large distances", view.m_TeleportEnabled);
+			view.m_TeleportEnabled = PhotonGUI.ContainerHeaderToggle("Enable teleport for large distances", view.m_TeleportEnabled);
 
-            if (view.m_TeleportEnabled)
-            {
-                Rect rect = PhotonGUI.ContainerBody(20.0f);
-                view.m_TeleportIfDistanceGreaterThan = EditorGUI.FloatField(rect, "Teleport if distance greater than", view.m_TeleportIfDistanceGreaterThan);
-            }
+			if (view.m_TeleportEnabled)
+			{
+				Rect rect = PhotonGUI.ContainerBody(20.0f);
+				view.m_TeleportIfDistanceGreaterThan = EditorGUI.FloatField(rect, "Teleport if distance greater than", view.m_TeleportIfDistanceGreaterThan);
+			}
 
-            view.m_SynchronizeVelocity = PhotonGUI.ContainerHeaderToggle("Synchronize Velocity", view.m_SynchronizeVelocity);
-            view.m_SynchronizeAngularVelocity = PhotonGUI.ContainerHeaderToggle("Synchronize Angular Velocity", view.m_SynchronizeAngularVelocity);
-            
-            if (GUI.changed)
-            {
-                EditorUtility.SetDirty(view);
-            }
-        }
-    }
+			view.m_SynchronizeVelocity = PhotonGUI.ContainerHeaderToggle("Synchronize Velocity", view.m_SynchronizeVelocity);
+			view.m_SynchronizeAngularVelocity = PhotonGUI.ContainerHeaderToggle("Synchronize Angular Velocity", view.m_SynchronizeAngularVelocity);
+
+			if (GUI.changed)
+			{
+				EditorUtility.SetDirty(view);
+			}
+		}
+	}
 }

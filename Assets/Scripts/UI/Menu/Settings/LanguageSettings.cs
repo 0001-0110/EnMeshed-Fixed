@@ -7,58 +7,58 @@ using Services;
 
 public class LanguageSettings : DebugMonoBehaviour
 {
-    private LanguageController languageController;
-    [SerializeField]
-    private TMP_Dropdown languageSelectionDropDown;
+	private LanguageController languageController;
+	[SerializeField]
+	private TMP_Dropdown languageSelectionDropDown;
 
-    private Dictionary<Language, string> languages = new Dictionary<Language, string>()
-    {
-        [Language.English] = "Language_English",
-        [Language.French] = "Language_French",
-        [Language.German] = "Language_German",
-        /*[Language.Romanian] = "Language_Romanian",
+	private readonly Dictionary<Language, string> languages = new()
+	{
+		[Language.English] = "Language_English",
+		[Language.French] = "Language_French",
+		[Language.German] = "Language_German",
+		/*[Language.Romanian] = "Language_Romanian",
         [Language.Arabic] = "Language_Arabic",
         [Language.Turkish] = "Language_Turkish",
         [Language.Italian] = "Language_Italian",
         [Language.Serbian] = "Language_Serbian",
         [Language.Portuguese] = "Language_Portuguese",
         [Language.Spanish] = "Language_Spanish",*/
-    };
-    private List<string> languageTexts;
+	};
+	private List<string> languageTexts;
 
-    public override void Awake()
-    {
-        base.Awake();
+	public override void Awake()
+	{
+		base.Awake();
 
-        languageController = LanguageController.Instance;
-        InitLanguageSelection();
-    }
+		languageController = LanguageController.Instance;
+		InitLanguageSelection();
+	}
 
-    public void OnEnable()
-    {
-        DisplayLanguageSelection();
-    }
+	public void OnEnable()
+	{
+		DisplayLanguageSelection();
+	}
 
-    /// <summary>
-    /// Display all the avalaible languages
-    /// </summary>
-    private void InitLanguageSelection()
-    {
-        languageTexts = languages.Values.ToList();
-        languageSelectionDropDown.ClearOptions();
-        // This line might cause problems if the language is still loading, but this is very unlikely to ever happen
-        List<string> options = ListService.ForEach(languageTexts, languageText => languageController.GetText(languageText));
-        languageSelectionDropDown.AddOptions(options);
-    }
+	/// <summary>
+	/// Display all the avalaible languages
+	/// </summary>
+	private void InitLanguageSelection()
+	{
+		languageTexts = languages.Values.ToList();
+		languageSelectionDropDown.ClearOptions();
+		// This line might cause problems if the language is still loading, but this is very unlikely to ever happen
+		List<string> options = ListService.ForEach(languageTexts, languageText => languageController.GetText(languageText));
+		languageSelectionDropDown.AddOptions(options);
+	}
 
-    private void DisplayLanguageSelection()
-    {
-        languageSelectionDropDown.value = languageTexts.IndexOf(languages[languageController.CurrentLanguage]);
-    }
+	private void DisplayLanguageSelection()
+	{
+		languageSelectionDropDown.value = languageTexts.IndexOf(languages[languageController.CurrentLanguage]);
+	}
 
-    public void UpdateLanguage()
-    {
-        // TODO need some comments, do it or you'll regret it later
-        languageController.SetLanguage(languages.First(pair => pair.Value == languageTexts[languageSelectionDropDown.value]).Key);
-    }
+	public void UpdateLanguage()
+	{
+		// TODO need some comments, do it or you'll regret it later
+		languageController.SetLanguage(languages.First(pair => pair.Value == languageTexts[languageSelectionDropDown.value]).Key);
+	}
 }

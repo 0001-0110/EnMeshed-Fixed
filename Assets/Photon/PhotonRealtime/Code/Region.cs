@@ -15,81 +15,81 @@
 
 namespace Photon.Realtime
 {
-    using ExitGames.Client.Photon;
+	using ExitGames.Client.Photon;
 
-    #if SUPPORTED_UNITY || NETFX_CORE
-    using Hashtable = ExitGames.Client.Photon.Hashtable;
-    using SupportClass = ExitGames.Client.Photon.SupportClass;
-    #endif
+#if SUPPORTED_UNITY || NETFX_CORE
+	using Hashtable = ExitGames.Client.Photon.Hashtable;
+	using SupportClass = ExitGames.Client.Photon.SupportClass;
+#endif
 
 
-    public class Region
-    {
-        public string Code { get; private set; }
+	public class Region
+	{
+		public string Code { get; private set; }
 
-        /// <summary>Unlike the CloudRegionCode, this may contain cluster information.</summary>
-        public string Cluster { get; private set; }
+		/// <summary>Unlike the CloudRegionCode, this may contain cluster information.</summary>
+		public string Cluster { get; private set; }
 
-        public string HostAndPort { get; protected internal set; }
+		public string HostAndPort { get; protected internal set; }
 
-        /// <summary>Weighted ping time.</summary>
-        /// <remarks>
-        /// Regions gets pinged 5 times (RegionPinger.Attempts).
-        /// Out of those, the worst rtt is discarded and the best will be counted two times for a weighted average.
-        /// </remarks>
-        public int Ping { get; set; }
+		/// <summary>Weighted ping time.</summary>
+		/// <remarks>
+		/// Regions gets pinged 5 times (RegionPinger.Attempts).
+		/// Out of those, the worst rtt is discarded and the best will be counted two times for a weighted average.
+		/// </remarks>
+		public int Ping { get; set; }
 
-        public bool WasPinged { get { return this.Ping != int.MaxValue; } }
+		public bool WasPinged { get { return this.Ping != int.MaxValue; } }
 
-        public Region(string code, string address)
-        {
-            this.SetCodeAndCluster(code);
-            this.HostAndPort = address;
-            this.Ping = int.MaxValue;
-        }
+		public Region(string code, string address)
+		{
+			this.SetCodeAndCluster(code);
+			this.HostAndPort = address;
+			this.Ping = int.MaxValue;
+		}
 
-        public Region(string code, int ping)
-        {
-            this.SetCodeAndCluster(code);
-            this.Ping = ping;
-        }
+		public Region(string code, int ping)
+		{
+			this.SetCodeAndCluster(code);
+			this.Ping = ping;
+		}
 
-        private void SetCodeAndCluster(string codeAsString)
-        {
-            if (codeAsString == null)
-            {
-                this.Code = "";
-                this.Cluster = "";
-                return;
-            }
+		private void SetCodeAndCluster(string codeAsString)
+		{
+			if (codeAsString == null)
+			{
+				this.Code = "";
+				this.Cluster = "";
+				return;
+			}
 
-            codeAsString = codeAsString.ToLower();
-            int slash = codeAsString.IndexOf('/');
-            this.Code = slash <= 0 ? codeAsString : codeAsString.Substring(0, slash);
-            this.Cluster = slash <= 0 ? "" : codeAsString.Substring(slash+1, codeAsString.Length-slash-1);
-        }
+			codeAsString = codeAsString.ToLower();
+			int slash = codeAsString.IndexOf('/');
+			this.Code = slash <= 0 ? codeAsString : codeAsString.Substring(0, slash);
+			this.Cluster = slash <= 0 ? "" : codeAsString.Substring(slash + 1, codeAsString.Length - slash - 1);
+		}
 
-        public override string ToString()
-        {
-            return this.ToString(false);
-        }
+		public override string ToString()
+		{
+			return this.ToString(false);
+		}
 
-        public string ToString(bool compact = false)
-        {
-            string regionCluster = this.Code;
-            if (!string.IsNullOrEmpty(this.Cluster))
-            {
-                regionCluster += "/" + this.Cluster;
-            }
+		public string ToString(bool compact = false)
+		{
+			string regionCluster = this.Code;
+			if (!string.IsNullOrEmpty(this.Cluster))
+			{
+				regionCluster += "/" + this.Cluster;
+			}
 
-            if (compact)
-            {
-                return string.Format("{0}:{1}", regionCluster, this.Ping);
-            }
-            else
-            {
-                return string.Format("{0}[{2}]: {1}ms", regionCluster, this.Ping, this.HostAndPort);
-            }
-        }
-    }
+			if (compact)
+			{
+				return string.Format("{0}:{1}", regionCluster, this.Ping);
+			}
+			else
+			{
+				return string.Format("{0}[{2}]: {1}ms", regionCluster, this.Ping, this.HostAndPort);
+			}
+		}
+	}
 }

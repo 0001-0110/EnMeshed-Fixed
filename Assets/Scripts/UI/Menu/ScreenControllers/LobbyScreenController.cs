@@ -4,50 +4,50 @@ using TMPro;
 
 public class LobbyScreenController : GameLoadingScreenController
 {
-    private MultiplayerController MultiplayerController;
+	private MultiplayerController MultiplayerController;
 
-    [SerializeField]
-    private TextMeshProUGUI playerInLobbyText;
-    [SerializeField]
-    private TMP_InputField roomNameInput;
+	[SerializeField]
+	private TextMeshProUGUI playerInLobbyText;
+	[SerializeField]
+	private TMP_InputField roomNameInput;
 
-    [SerializeField]
-    private int refreshDelay;
+	[SerializeField]
+	private int refreshDelay;
 
-    public override void Awake()
-    {
-        base.Awake();
+	public override void Awake()
+	{
+		base.Awake();
 
-        MultiplayerController = MultiplayerController.Instance;
-    }
+		MultiplayerController = MultiplayerController.Instance;
+	}
 
-    public void OnEnable()
-    {
-        SetMode(ScreenMode.Menu);
-        Refresh();
-    }
+	public void OnEnable()
+	{
+		SetMode(ScreenMode.Menu);
+		Refresh();
+	}
 
-    public async void Refresh()
-    {
-        while (this != null && gameObject.activeInHierarchy)
-        {
-            playerInLobbyText.text = MultiplayerController.PlayerCountInLobby.ToString();
-            await Task.Delay(refreshDelay);
-        }
-    }
+	public async void Refresh()
+	{
+		while (this != null && gameObject.activeInHierarchy)
+		{
+			playerInLobbyText.text = MultiplayerController.PlayerCountInLobby.ToString();
+			await Task.Delay(refreshDelay);
+		}
+	}
 
-    public async void CreateRoom()
-    {
-        await LoadRoom(MultiplayerController.CreateRoom(MultiplayerController.CreateRoomName()));
-    }
+	public async void CreateRoom()
+	{
+		await LoadRoom(MultiplayerController.CreateRoom(MultiplayerController.CreateRoomName()));
+	}
 
-    public async void JoinRandomOrCreate()
-    {
-        await LoadRoom(MultiplayerController.JoinRandomOrCreateRoom());
-    }
+	public async void JoinRandomOrCreate()
+	{
+		await LoadRoom(MultiplayerController.JoinRandomOrCreateRoom());
+	}
 
-    public async void JoinRoom()
-    {
-        await LoadRoom(MultiplayerController.JoinRoom(roomNameInput.text.ToUpper()));
-    }
+	public async void JoinRoom()
+	{
+		await LoadRoom(MultiplayerController.JoinRoom(roomNameInput.text.ToUpper()));
+	}
 }

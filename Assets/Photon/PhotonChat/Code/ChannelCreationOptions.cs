@@ -6,17 +6,17 @@
 
 namespace Photon.Chat
 {
-    public class ChannelCreationOptions
-    {
-        /// <summary>Default values of channel creation options.</summary>
-        public static ChannelCreationOptions Default = new ChannelCreationOptions();
-        /// <summary>Whether or not the channel to be created will allow client to keep a list of users.</summary>
-        public bool PublishSubscribers { get; set; }
-        /// <summary>Limit of the number of users subscribed to the channel to be created.</summary>
-        public int MaxSubscribers { get; set; }
+	public class ChannelCreationOptions
+	{
+		/// <summary>Default values of channel creation options.</summary>
+		public static ChannelCreationOptions Default = new ChannelCreationOptions();
+		/// <summary>Whether or not the channel to be created will allow client to keep a list of users.</summary>
+		public bool PublishSubscribers { get; set; }
+		/// <summary>Limit of the number of users subscribed to the channel to be created.</summary>
+		public int MaxSubscribers { get; set; }
 
-        #if CHAT_EXTENDED
+#if CHAT_EXTENDED
         public System.Collections.Generic.Dictionary<string, object> CustomProperties { get; set; }
-        #endif
-    }
+#endif
+	}
 }

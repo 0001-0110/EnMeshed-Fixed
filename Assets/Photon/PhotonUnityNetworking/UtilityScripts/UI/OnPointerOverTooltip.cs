@@ -12,21 +12,21 @@ using UnityEngine.EventSystems;
 namespace Photon.Pun.UtilityScripts
 {
 	/// <summary>
-    /// Set focus to a given photonView when pointed is over
+	/// Set focus to a given photonView when pointed is over
 	/// </summary>
-	public class OnPointerOverTooltip : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+	public class OnPointerOverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 
-	    void OnDestroy()
-	    {
-	        PointedAtGameObjectInfo.Instance.RemoveFocus(this.GetComponent<PhotonView>());
-	    }
-		
+		void OnDestroy()
+		{
+			PointedAtGameObjectInfo.Instance.RemoveFocus(this.GetComponent<PhotonView>());
+		}
+
 		#region IPointerExitHandler implementation
 
-		void IPointerExitHandler.OnPointerExit (PointerEventData eventData)
+		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
 		{
-			PointedAtGameObjectInfo.Instance.RemoveFocus (this.GetComponent<PhotonView>());
+			PointedAtGameObjectInfo.Instance.RemoveFocus(this.GetComponent<PhotonView>());
 
 		}
 
@@ -34,9 +34,9 @@ namespace Photon.Pun.UtilityScripts
 
 		#region IPointerEnterHandler implementation
 
-		void IPointerEnterHandler.OnPointerEnter (PointerEventData eventData)
+		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
-			PointedAtGameObjectInfo.Instance.SetFocus (this.GetComponent<PhotonView>());
+			PointedAtGameObjectInfo.Instance.SetFocus(this.GetComponent<PhotonView>());
 		}
 
 		#endregion

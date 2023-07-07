@@ -12,13 +12,13 @@ using UnityEngine;
 
 namespace Photon.Pun.UtilityScripts
 {
-    /// <summary>This component will destroy the GameObject it is attached to (in Start()).</summary>
-    public class OnStartDelete : MonoBehaviour
-    {
-        // Use this for initialization
-        private void Start()
-        {
-            Destroy(this.gameObject);
-        }
-    }
+	/// <summary>This component will destroy the GameObject it is attached to (in Start()).</summary>
+	public class OnStartDelete : MonoBehaviour
+	{
+		// Use this for initialization
+		private void Start()
+		{
+			Destroy(this.gameObject);
+		}
+	}
 }

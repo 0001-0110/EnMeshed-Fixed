@@ -1,9 +1,9 @@
 ﻿public enum Language
 {
-    English = 10,
-    French = 14,
-    German = 15,
-    /*Romanian = 29,
+	English = 10,
+	French = 14,
+	German = 15,
+	/*Romanian = 29,
     Arabic = 1,
     Turkish = 37,
     Italian = 21,

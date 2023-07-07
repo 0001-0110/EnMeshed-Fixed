@@ -2,30 +2,30 @@ using Photon.Pun;
 
 public class PlayerController : EntityController
 {
-    private MultiplayerController MultiplayerController;
+	private MultiplayerController MultiplayerController;
 
-    private PlayerInputController inputController;
+	private PlayerInputController inputController;
 
-    public override void Awake()
-    {
-        base.Awake();
+	public override void Awake()
+	{
+		base.Awake();
 
-        MultiplayerController = MultiplayerController.Instance;
+		MultiplayerController = MultiplayerController.Instance;
 
-        inputController = GetComponent<PlayerInputController>();
+		inputController = GetComponent<PlayerInputController>();
 
-        // TODO sync this
-        if (photonView.IsMine)
-        {
-            name = $"Player_{MultiplayerController.LocalPlayer.NickName}";
-            // TODO set user name
-        }
-    }
+		// TODO sync this
+		if (photonView.IsMine)
+		{
+			name = $"Player_{MultiplayerController.LocalPlayer.NickName}";
+			// TODO set user name
+		}
+	}
 
-    [PunRPC]
-    public void Die()
-    {
-        // TODO
-        throw new System.NotImplementedException();
-    }
+	[PunRPC]
+	public void Die()
+	{
+		// TODO
+		throw new System.NotImplementedException();
+	}
 }
